@@ -5,7 +5,7 @@
   "summary": {
     "title": "VIVARO Telecom",
     "owner": "Alberto Jorge Gonzalez Reyes",
-    "description": "Servicios administrados de seguridad provistos por VIVARO TELECOM a clientes empresariales: Firewall Administrado y EDR Protect. Incluye la recepción y atención de requerimientos e incidentes a través de la mesa de servicio, la administración remota de firewalls perimetrales y consolas EDR, la gestión de cambios de reglas, políticas y exclusiones, el monitoreo continuo, la recolección de logs hacia la plataforma de correlación (SIEM), la gestión de respaldos de configuración y la actualización de firmware y agentes, con participación de terceros (Mesa de Servicio N1 y resolutores N2). Queda fuera del alcance la infraestructura interna del cliente detrás del firewall y los enlaces del proveedor de Internet.",
+    "description": "Servicios administrados de seguridad provistos por VIVARO TELECOM a clientes empresariales: Firewall Administrado y EDR Protect. Incluye la recepción y atención de requerimientos e incidentes a través de la mesa de servicio, la administración remota de firewalls perimetrales y consolas EDR, la gestión de cambios de reglas, políticas y exclusiones, el monitoreo continuo, la recolección de logs, la gestión de respaldos de configuración y la actualización de firmware y agentes, con participación de terceros (Mesa de Servicio N1 y resolutores N2). Queda fuera del alcance la infraestructura interna del cliente detrás del firewall y los enlaces del proveedor de Internet.",
     "id": 0
   },
   "detail": {
