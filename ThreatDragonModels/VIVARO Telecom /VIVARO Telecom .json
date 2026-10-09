@@ -1,11 +1,11 @@
 {
   "version": "2.6.2",
-  "release_version": "1.0",
+  "release_version": "1.1",
   "released_at": "2026-09-29",
   "summary": {
     "title": "VIVARO Telecom",
     "owner": "Alberto Jorge Gonzalez Reyes",
-    "description": "Servicios administrados de seguridad provistos por VIVARO TELECOM a clientes empresariales: Firewall Administrado y EDR Protect. Incluye la recepción y atención de requerimientos e incidentes a través de la mesa de servicio, la administración remota de firewalls perimetrales y consolas EDR, la gestión de cambios de reglas, políticas y exclusiones, el monitoreo continuo, la recolección de logs, la gestión de respaldos de configuración y la actualización de firmware y agentes, con participación de terceros (Mesa de Servicio N1 y resolutores N2). Queda fuera del alcance la infraestructura interna del cliente detrás del firewall y los enlaces del proveedor de Internet.",
+    "description": "Servicios administrados de seguridad provistos por VIVARO TELECOM (Firewall Administrado y EDR Protect) y los procesos de TI y de gobierno que los soportan. Cada diagrama modela un procedimiento del sistema de gestión. Amenazas tomadas del Catálogo Maestro de Amenazas v1.3 (STRIDE, NIST SP 800-30 Rev.1, ISO/IEC 27001:2022), con un máximo de 25 priorizadas por diagrama.",
     "id": 0
   },
   "detail": {
@@ -31,6 +31,9 @@
             "attrs": {
               "text": {
                 "text": "Cliente"
+              },
+              "body": {
+                "stroke": "red"
               }
             },
             "visible": true,
@@ -43,8 +46,22 @@
               "description": "Usuario del cliente con póliza activa de EDR o Firewall Administrado que genera requerimientos por teléfono, correo o plataforma.",
               "outOfScope": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": false,
-              "threats": [],
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "16fe20b1-ddcd-49bf-8c02-bc67bad2a479",
+                  "title": "AMZ-01 · Suplantación de un solicitante autorizado mediante ingeniería social",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Spoofing",
+                  "description": "Escenario: Un tercero se hace pasar por personal del cliente (teléfono o correo) y solicita abrir reglas, crear VPN o agregar exclusiones en el EDR.\nEvento NIST SP 800-30 (Tabla E-2): Conduct outsider-based social engineering to obtain information.\nFuente de amenaza (Tabla D-2): Adversarial – Outsider (externo)\nTendencia del sector: Alta (FT-01; FT-03)\nActividad del procedimiento: 6.2.2.2\nJustificación: La validación de 6.2.2.2 confirma la póliza activa, no la identidad ni la autorización del solicitante.\nCriterios: frontera Sí, multicliente No, sin control Sí | Puntaje 32 (lugar 6)",
+                  "mitigation": "ISO/IEC 27001:2022 A.5.16; A.5.17; A.8.5; A.6.3 – Matriz de contactos autorizados por cliente y verificación de identidad (devolución de llamada o PIN) antes de registrar cambios de seguridad.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 1,
+                  "score": "32"
+                }
+              ],
               "providesAuthentication": false
             }
           },
@@ -60,6 +77,9 @@
             "attrs": {
               "text": {
                 "text": "Mesa de Servicio N1 (Sonda)"
+              },
+              "body": {
+                "stroke": "red"
               }
             },
             "visible": true,
@@ -72,8 +92,35 @@
               "description": "Proveedor tercerizado que valida cliente y alcance, clasifica, da seguimiento, documenta y cierra requerimientos (6.2.2.2, 6.2.2.3, 6.2.2.6, 6.2.2.7).",
               "outOfScope": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": false,
-              "threats": [],
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "23d0eca1-9454-4360-bab6-92a41ca1d583",
+                  "title": "AMZ-05 · Compromiso de un proveedor con acceso de confianza",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Spoofing",
+                  "description": "Escenario: Un atacante compromete al proveedor de mesa N1 y usa su acceso al sistema de tickets para consultar o manipular requerimientos de todos los clientes.\nEvento NIST SP 800-30 (Tabla E-5 (org.)): Organization-defined: Compromise of a third party with trusted access.\nFuente de amenaza (Tabla D-2): Adversarial – Supplier (proveedor)\nTendencia del sector: Alta (FT-02; FT-03; FT-04)\nActividad del procedimiento: 6.2.2.2–6.2.2.7\nJustificación: El procedimiento no define requisitos de seguridad ni revisión periódica del proveedor N1.\nCriterios: frontera Sí, multicliente Sí, sin control Sí | Puntaje 33 (lugar 1)",
+                  "mitigation": "ISO/IEC 27001:2022 A.5.19; A.5.20; A.5.21; A.5.22; A.8.2; A.8.5 – Requisitos de seguridad contractuales, evaluación periódica del proveedor y acceso con MFA desde equipos controlados.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 2,
+                  "score": "33"
+                },
+                {
+                  "id": "877a8719-5432-4e16-b8ea-b1bbf4b598b3",
+                  "title": "AMZ-39 · Uso de accesos vigentes de personal dado de baja",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Spoofing",
+                  "description": "Escenario: Personal del proveedor N1 dado de baja conserva su cuenta activa en el sistema de tickets.\nEvento NIST SP 800-30 (Tabla E-5 (org.)): Organization-defined: Use of active access by former personnel.\nFuente de amenaza (Tabla D-2): Adversarial – Outsider (externo; ex personal interno o de proveedor)\nTendencia del sector: Media (FT-04)\nActividad del procedimiento: 6.2.2.2–6.2.2.7\nJustificación: No se define la conciliación de altas y bajas con el proveedor.\nCriterios: frontera Sí, multicliente Sí, sin control Sí | Puntaje 23 (lugar 10)",
+                  "mitigation": "ISO/IEC 27001:2022 A.5.18; A.6.5; A.5.19; A.5.20 – Notificación contractual de bajas y conciliación mensual de cuentas del proveedor.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 9,
+                  "score": "23"
+                }
+              ],
               "providesAuthentication": false
             }
           },
@@ -89,6 +136,9 @@
             "attrs": {
               "text": {
                 "text": "Resolutor N2 Externo (Quanti / Hillpint)"
+              },
+              "body": {
+                "stroke": "red"
               }
             },
             "visible": true,
@@ -101,8 +151,22 @@
               "description": "Proveedores externos que ejecutan la resolución técnica con acceso administrativo a la infraestructura del cliente (6.2.2.5).",
               "outOfScope": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": false,
-              "threats": [],
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "98c9fab5-9b9c-445a-b075-0be0f1f5cb12",
+                  "title": "AMZ-05 · Compromiso de un proveedor con acceso de confianza",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Spoofing",
+                  "description": "Escenario: Un atacante compromete a un proveedor N2 y usa su acceso administrativo para operar la infraestructura de varios clientes.\nEvento NIST SP 800-30 (Tabla E-5 (org.)): Organization-defined: Compromise of a third party with trusted access.\nFuente de amenaza (Tabla D-2): Adversarial – Supplier (proveedor)\nTendencia del sector: Alta (FT-02; FT-03; FT-04)\nActividad del procedimiento: 6.2.2.5\nJustificación: El procedimiento solo recibe de Gestión de Proveedores la categorización de riesgo; no define controles de acceso del tercero.\nCriterios: frontera Sí, multicliente Sí, sin control Sí | Puntaje 33 (lugar 2)",
+                  "mitigation": "ISO/IEC 27001:2022 A.5.19; A.5.20; A.5.21; A.5.22; A.8.2; A.8.5 – Acceso temporal ligado a ticket aprobado, MFA, servidor de salto y grabación de sesiones.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 3,
+                  "score": "33"
+                }
+              ],
               "providesAuthentication": false
             }
           },
@@ -118,6 +182,9 @@
             "attrs": {
               "text": {
                 "text": "Resolutor N2 Interno (Vivaro Operaciones)"
+              },
+              "body": {
+                "stroke": "red"
               }
             },
             "visible": true,
@@ -130,8 +197,22 @@
               "description": "Equipo interno de Vivaro que ejecuta la resolución técnica de los requerimientos asignados (6.2.2.5).",
               "outOfScope": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": false,
-              "threats": [],
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "cc78d3df-8e07-4845-92b0-95362cf1afa7",
+                  "title": "AMZ-04 · Uso indebido de cuentas compartidas o genéricas",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Spoofing",
+                  "description": "Escenario: Uso de cuentas administrativas genéricas en firewalls y consolas que impiden atribuir los cambios.\nEvento NIST SP 800-30 (Tabla E-5 (org.)): Organization-defined: Misuse of shared or generic accounts.\nFuente de amenaza (Tabla D-2): Adversarial – Insider (interno)\nTendencia del sector: Media (FT-02)\nActividad del procedimiento: 6.2.2.5\nJustificación: No se exige el uso de cuentas nominales.\nCriterios: frontera Sí, multicliente Sí, sin control Sí | Puntaje 23 (lugar 15)",
+                  "mitigation": "ISO/IEC 27001:2022 A.5.16; A.5.18; A.8.2; A.8.5; A.8.15 – Cuentas nominales, gestión de accesos privilegiados y MFA.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 15,
+                  "score": "23"
+                }
+              ],
               "providesAuthentication": false
             }
           },
@@ -147,6 +228,9 @@
             "attrs": {
               "text": {
                 "text": "Recepción multicanal"
+              },
+              "body": {
+                "stroke": "red"
               }
             },
             "visible": true,
@@ -159,8 +243,35 @@
               "description": "Recepción de requerimientos por llamada telefónica, correo electrónico o plataforma de solicitudes.",
               "outOfScope": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": false,
-              "threats": [],
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "080adea5-33d3-45ee-b2d6-55a50076c7fa",
+                  "title": "AMZ-02 · Suplantación de remitente o dominio en correo electrónico",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Spoofing",
+                  "description": "Escenario: Un correo que aparenta provenir del dominio de un cliente solicita un cambio en su firewall.\nEvento NIST SP 800-30 (Tabla E-2): Craft phishing attacks.\nFuente de amenaza (Tabla D-2): Adversarial – Outsider (externo)\nTendencia del sector: Alta (FT-02; FT-03)\nActividad del procedimiento: 6.2.2.1\nJustificación: Se aceptan solicitudes por correo sin verificar la autenticidad del remitente.\nCriterios: frontera Sí, multicliente No, sin control Sí | Puntaje 32 (lugar 8)",
+                  "mitigation": "ISO/IEC 27001:2022 A.5.14; A.8.7; A.8.23; A.6.3 – SPF, DKIM y DMARC; no ejecutar cambios de seguridad solicitados solo por correo.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 8,
+                  "score": "32"
+                },
+                {
+                  "id": "7b938e4f-2040-418d-b783-48fdc60de5f7",
+                  "title": "AMZ-26 · Denegación de servicio simple",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Denial of service",
+                  "description": "Escenario: Saturación de canales (llamadas o correos masivos) que impide atender requerimientos.\nEvento NIST SP 800-30 (Tabla E-2): Conduct simple Denial of Service (DoS) attack.\nFuente de amenaza (Tabla D-2): Adversarial – Outsider (externo)\nTendencia del sector: Media (FT-03)\nActividad del procedimiento: 6.2.2.1\nJustificación: No se define capacidad ni priorización ante saturación.\nCriterios: frontera Sí, multicliente Sí, sin control Sí | Puntaje 23 (lugar 16)",
+                  "mitigation": "ISO/IEC 27001:2022 A.8.6; A.8.20; A.8.14; A.5.29 – Filtros antispam, límites en el portal y plan de capacidad.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 23,
+                  "score": "23"
+                }
+              ],
               "handlesCardPayment": false,
               "handlesGoodsOrServices": false,
               "isWebApplication": false,
@@ -179,6 +290,9 @@
             "attrs": {
               "text": {
                 "text": "Sistema de Tickets"
+              },
+              "body": {
+                "stroke": "red"
               }
             },
             "visible": true,
@@ -191,8 +305,87 @@
               "description": "Registro de folios, validación, clasificación, asignación, seguimiento y cierre de requerimientos (6.2.2.1 a 6.2.2.7). Requiere inicio de sesión de usuarios de Mesa de Ayuda, Sonda y resolutores N2.",
               "outOfScope": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": false,
-              "threats": [],
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "3deb5eba-0b45-4362-b6d6-4f2f11ea214c",
+                  "title": "AMZ-17 · Explotación de vulnerabilidades recién descubiertas",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Elevation of privilege",
+                  "description": "Escenario: Una vulnerabilidad de la aplicación web de tickets permite consultar información de todos los clientes.\nEvento NIST SP 800-30 (Tabla E-2): Exploit recently discovered vulnerabilities.\nFuente de amenaza (Tabla D-2): Adversarial – Outsider (externo)\nTendencia del sector: Alta (FT-01; FT-02; FT-03)\nActividad del procedimiento: 6.2.2.1–6.2.2.7\nJustificación: El procedimiento no establece requisitos de seguridad de la plataforma.\nCriterios: frontera Sí, multicliente Sí, sin control Sí | Puntaje 33 (lugar 5)",
+                  "mitigation": "ISO/IEC 27001:2022 A.8.8; A.5.7; A.8.9 – Gestión de parches, configuración segura y pruebas de seguridad periódicas.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 6,
+                  "score": "33"
+                },
+                {
+                  "id": "fc23e360-c2c5-42ad-8eb8-5867c3009e5d",
+                  "title": "AMZ-25 · Introducción de código malicioso conocido (incluye ransomware)",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Tampering",
+                  "description": "Escenario: Ransomware cifra el sistema de tickets e impide atender los requerimientos de todos los clientes.\nEvento NIST SP 800-30 (Tabla E-2): Deliver known malware to internal organizational information systems (e.g., virus via email).\nFuente de amenaza (Tabla D-2): Adversarial – Outsider (externo)\nTendencia del sector: Alta (FT-01; FT-03)\nActividad del procedimiento: 6.2.2.1–6.2.2.7\nJustificación: No existe procedimiento de contingencia ante la caída del sistema.\nCriterios: frontera No, multicliente Sí, sin control Sí | Puntaje 32 (lugar 7)",
+                  "mitigation": "ISO/IEC 27001:2022 A.8.7; A.8.8; A.8.13; A.6.3 – Respaldos aislados con pruebas de restauración y procedimiento de contingencia manual.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 7,
+                  "score": "32"
+                },
+                {
+                  "id": "0bc1df08-3e1d-40c5-b563-10f84266b816",
+                  "title": "AMZ-13 · Acceso que excede la autorización otorgada",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Elevation of privilege",
+                  "description": "Escenario: Usuarios de la mesa N1 o de la mesa de ayuda consultan información de clientes que no atienden.\nEvento NIST SP 800-30 (Tabla E-2): Obtain unauthorized access.\nFuente de amenaza (Tabla D-2): Adversarial – Insider (interno)\nTendencia del sector: Media (FT-02)\nActividad del procedimiento: 6.2.2.2–6.2.2.4\nJustificación: No se define segregación de información por cliente ni por rol.\nCriterios: frontera Sí, multicliente Sí, sin control Sí | Puntaje 23 (lugar 13)",
+                  "mitigation": "ISO/IEC 27001:2022 A.5.15; A.5.18; A.8.2; A.8.3 – Control de acceso por rol y por cliente; revisión trimestral de accesos.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 12,
+                  "score": "23"
+                },
+                {
+                  "id": "b44aec1d-954d-4b7a-8061-820ca0fca437",
+                  "title": "AMZ-36 · Clasificación o atención errónea de un evento de seguridad",
+                  "status": "Open",
+                  "severity": "Low",
+                  "type": "Denial of service",
+                  "description": "Escenario: Un incidente de seguridad se clasifica como requerimiento y se atiende con tiempos de requerimiento.\nEvento NIST SP 800-30 (Tabla E-5 (org.)): Organization-defined: Misclassification of a security event.\nFuente de amenaza (Tabla D-2): Accidental – User (usuario)\nTendencia del sector: Baja (sin mención relevante en fuentes del sector)\nActividad del procedimiento: 6.2.2.3\nJustificación: 6.2.2.3 indica verificar si es incidente, pero no define criterios.\nCriterios: frontera Sí, multicliente Sí, sin control Sí | Puntaje 13 (lugar 22)",
+                  "mitigation": "ISO/IEC 27001:2022 A.5.24; A.5.25; A.6.3; A.6.8; A.5.26; A.5.37 – Criterios de clasificación con ejemplos y regla de escalamiento ante duda.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 13,
+                  "score": "13"
+                },
+                {
+                  "id": "3b271d6f-66a8-44c8-8323-7b75dfd36be3",
+                  "title": "AMZ-04 · Uso indebido de cuentas compartidas o genéricas",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Spoofing",
+                  "description": "Escenario: Los operadores comparten cuentas del sistema de tickets.\nEvento NIST SP 800-30 (Tabla E-5 (org.)): Organization-defined: Misuse of shared or generic accounts.\nFuente de amenaza (Tabla D-2): Adversarial – Insider (interno)\nTendencia del sector: Media (FT-02)\nActividad del procedimiento: 6.2.2.1–6.2.2.7\nJustificación: No se exige el uso de cuentas nominales ni MFA.\nCriterios: frontera No, multicliente Sí, sin control Sí | Puntaje 22 (lugar 17)",
+                  "mitigation": "ISO/IEC 27001:2022 A.5.16; A.5.18; A.8.2; A.8.5; A.8.15 – Cuentas nominales con MFA.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 16,
+                  "score": "22"
+                },
+                {
+                  "id": "2098ad94-b802-439f-88d1-5d698035a352",
+                  "title": "AMZ-19 · Inyección de datos falsos pero creíbles",
+                  "status": "Open",
+                  "severity": "Low",
+                  "type": "Tampering",
+                  "description": "Escenario: Se modifican prioridades, soluciones o cierres de tickets sin dejar rastro.\nEvento NIST SP 800-30 (Tabla E-2): Cause integrity loss by injecting false but believable data into organizational information systems.\nFuente de amenaza (Tabla D-2): Adversarial – Insider (interno)\nTendencia del sector: Baja (sin mención relevante en fuentes del sector)\nActividad del procedimiento: 6.2.2.6–6.2.2.7\nJustificación: No se exige bitácora de cambios en los tickets.\nCriterios: frontera No, multicliente Sí, sin control Sí | Puntaje 12 (lugar 23)",
+                  "mitigation": "ISO/IEC 27001:2022 A.8.15; A.5.33; A.8.32 – Bitácora de auditoría y campos críticos no editables tras el cierre.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 20,
+                  "score": "12"
+                }
+              ],
               "handlesCardPayment": false,
               "handlesGoodsOrServices": false,
               "isWebApplication": true,
@@ -211,6 +404,9 @@
             "attrs": {
               "text": {
                 "text": "Firewall / EDR del cliente"
+              },
+              "body": {
+                "stroke": "red"
               }
             },
             "visible": true,
@@ -223,8 +419,35 @@
               "description": "Infraestructura de seguridad del cliente donde se aplica la resolución técnica (cambios de reglas, políticas y exclusiones).",
               "outOfScope": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": false,
-              "threats": [],
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "3dabf8cb-cb09-4d83-8b84-5a26a5a870b9",
+                  "title": "AMZ-17 · Explotación de vulnerabilidades recién descubiertas",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Elevation of privilege",
+                  "description": "Escenario: Explotación de una vulnerabilidad publicada en el firewall o la consola EDR antes de aplicar el parche.\nEvento NIST SP 800-30 (Tabla E-2): Exploit recently discovered vulnerabilities.\nFuente de amenaza (Tabla D-2): Adversarial – Outsider (externo)\nTendencia del sector: Alta (FT-01; FT-02; FT-03)\nActividad del procedimiento: 6.2.2.5\nJustificación: El procedimiento no se vincula con la gestión de vulnerabilidades de los equipos administrados.\nCriterios: frontera Sí, multicliente Sí, sin control Sí | Puntaje 33 (lugar 3)",
+                  "mitigation": "ISO/IEC 27001:2022 A.8.8; A.5.7; A.8.9 – Monitoreo de avisos del fabricante y aplicación de parches críticos en plazos definidos.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 4,
+                  "score": "33"
+                },
+                {
+                  "id": "ad830746-1eab-4bea-b7e8-81c3f8b30d4b",
+                  "title": "AMZ-13 · Acceso que excede la autorización otorgada",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Elevation of privilege",
+                  "description": "Escenario: Los resolutores N2 mantienen acceso administrativo permanente a los equipos de todos los clientes, aun sin requerimiento activo.\nEvento NIST SP 800-30 (Tabla E-2): Obtain unauthorized access.\nFuente de amenaza (Tabla D-2): Adversarial – Insider (interno)\nTendencia del sector: Media (FT-02)\nActividad del procedimiento: 6.2.2.5\nJustificación: No se define acceso temporal ni revisión de accesos.\nCriterios: frontera Sí, multicliente Sí, sin control Sí | Puntaje 23 (lugar 11)",
+                  "mitigation": "ISO/IEC 27001:2022 A.5.15; A.5.18; A.8.2; A.8.3 – Acceso ligado a ticket, mínimo privilegio y revisión periódica de accesos.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 10,
+                  "score": "23"
+                }
+              ],
               "handlesCardPayment": false,
               "handlesGoodsOrServices": false,
               "isWebApplication": false,
@@ -243,6 +466,12 @@
             "attrs": {
               "text": {
                 "text": "BD de Tickets y Registro de Solución"
+              },
+              "topLine": {
+                "stroke": "red"
+              },
+              "bottomLine": {
+                "stroke": "red"
               }
             },
             "visible": true,
@@ -255,8 +484,74 @@
               "description": "Repositorio de requerimientos, datos de contacto de clientes, clasificación, soluciones aplicadas y notificaciones de cierre.",
               "outOfScope": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": false,
-              "threats": [],
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "aae7a519-a8d0-4fc9-b8f4-284e01ad8a37",
+                  "title": "AMZ-11 · Registro de información sensible en sistemas no autorizados",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Information disclosure",
+                  "description": "Escenario: Se registran contraseñas o llaves VPN de los equipos de clientes en la solución documentada.\nEvento NIST SP 800-30 (Tabla E-3): Spill sensitive information.\nFuente de amenaza (Tabla D-2): Accidental – User (usuario)\nTendencia del sector: Media (FT-02)\nActividad del procedimiento: 6.2.2.6\nJustificación: No se prohíbe registrar credenciales en los tickets.\nCriterios: frontera No, multicliente Sí, sin control Sí | Puntaje 22 (lugar 18)",
+                  "mitigation": "ISO/IEC 27001:2022 A.5.12; A.5.17; A.8.11; A.8.12 – Prohibir el registro de credenciales, gestor de secretos y depuración periódica.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 17,
+                  "score": "22"
+                },
+                {
+                  "id": "c635eb51-d64c-47a2-9787-8cef0cebeb2a",
+                  "title": "AMZ-12 · Exfiltración de información sensible",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Information disclosure",
+                  "description": "Escenario: Extracción encubierta de la base de tickets con información de todos los clientes.\nEvento NIST SP 800-30 (Tabla E-2): Obtain sensitive information via exfiltration.\nFuente de amenaza (Tabla D-2): Adversarial – Outsider (externo)\nTendencia del sector: Media (FT-01)\nActividad del procedimiento: 6.2.2.6\nJustificación: No se definen controles técnicos sobre el repositorio.\nCriterios: frontera No, multicliente Sí, sin control Sí | Puntaje 22 (lugar 19)",
+                  "mitigation": "ISO/IEC 27001:2022 A.8.7; A.8.12; A.8.16; A.8.24 – Cifrado en reposo, monitoreo de accesos y prevención de fuga de datos.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 18,
+                  "score": "22"
+                },
+                {
+                  "id": "6c7f9db8-8f21-4974-99c5-fb2b2416e9c5",
+                  "title": "AMZ-29 · Destrucción de componentes, datos o funciones críticas",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Denial of service",
+                  "description": "Escenario: Destrucción deliberada de la base de tickets y sus respaldos.\nEvento NIST SP 800-30 (Tabla E-2): Cause deterioration/destruction of critical information system components and functions.\nFuente de amenaza (Tabla D-2): Adversarial – Outsider (externo)\nTendencia del sector: Media (FT-01)\nActividad del procedimiento: 6.2.2.6\nJustificación: No se definen respaldos ni retención.\nCriterios: frontera No, multicliente Sí, sin control Sí | Puntaje 22 (lugar 20)",
+                  "mitigation": "ISO/IEC 27001:2022 A.8.13; A.8.14; A.5.30 – Respaldos aislados y política de retención.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 19,
+                  "score": "22"
+                },
+                {
+                  "id": "ce282316-1bd2-4ffc-9b8b-7cf18c49c29b",
+                  "title": "AMZ-23 · Eliminación o alteración de bitácoras y evidencias",
+                  "status": "Open",
+                  "severity": "Low",
+                  "type": "Repudiation",
+                  "description": "Escenario: Borrado de registros para ocultar quién solicitó o ejecutó un cambio.\nEvento NIST SP 800-30 (Tabla E-2): Obfuscate adversary actions.\nFuente de amenaza (Tabla D-2): Adversarial – Insider (interno)\nTendencia del sector: Baja (sin mención relevante en fuentes del sector)\nActividad del procedimiento: 6.2.2.6\nJustificación: No se protege la integridad de los registros.\nCriterios: frontera No, multicliente Sí, sin control Sí | Puntaje 12 (lugar 24)",
+                  "mitigation": "ISO/IEC 27001:2022 A.8.15; A.5.28; A.5.33; A.8.17 – Protección de registros, retención y envío de bitácoras a un repositorio independiente.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 21,
+                  "score": "12"
+                },
+                {
+                  "id": "4a4cddf2-badb-4fc4-99ec-ab86b1ac3e5d",
+                  "title": "AMZ-20 · Corrupción de datos críticos",
+                  "status": "Open",
+                  "severity": "Low",
+                  "type": "Tampering",
+                  "description": "Escenario: Corrupción de la información de soluciones aplicadas.\nEvento NIST SP 800-30 (Tabla E-2): Cause integrity loss by polluting or corrupting critical data.\nFuente de amenaza (Tabla D-2): Adversarial – Outsider (externo)\nTendencia del sector: Baja (sin mención relevante en fuentes del sector)\nActividad del procedimiento: 6.2.2.6\nJustificación: No se definen controles de integridad.\nCriterios: frontera No, multicliente Sí, sin control Sí | Puntaje 12 (lugar 25)",
+                  "mitigation": "ISO/IEC 27001:2022 A.8.13; A.8.15; A.8.24; A.8.3 – Respaldos y restricción de acceso directo a la base de datos.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 22,
+                  "score": "12"
+                }
+              ],
               "isALog": true,
               "isEncrypted": false,
               "isSigned": false,
@@ -370,7 +665,7 @@
             "shape": "flow",
             "attrs": {
               "line": {
-                "stroke": "#333333",
+                "stroke": "red",
                 "strokeWidth": 1.5,
                 "targetMarker": {
                   "name": "block"
@@ -413,15 +708,29 @@
               "isEncrypted": true,
               "isPublicNetwork": true,
               "isBidirectional": true,
-              "hasOpenThreats": false,
-              "threats": []
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "75d48533-692e-4341-aab4-67cb9aab7eb2",
+                  "title": "AMZ-10 · Manejo inadecuado de información sensible por usuarios autorizados",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Information disclosure",
+                  "description": "Escenario: Personal del proveedor N1 comparte información de clientes por canales no autorizados.\nEvento NIST SP 800-30 (Tabla E-3): Mishandling of critical and/or sensitive information by authorized users.\nFuente de amenaza (Tabla D-2): Accidental – Privileged User/Administrator (usuario privilegiado)\nTendencia del sector: Media (FT-01)\nActividad del procedimiento: 6.2.2.2–6.2.2.7\nJustificación: No se definen lineamientos de manejo de información para el tercero.\nCriterios: frontera Sí, multicliente Sí, sin control Sí | Puntaje 23 (lugar 14)",
+                  "mitigation": "ISO/IEC 27001:2022 A.5.12; A.5.13; A.5.14; A.6.3; A.8.12; A.5.10 – Acuerdos de confidencialidad, lineamientos de manejo y prevención de fuga de datos.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 14,
+                  "score": "23"
+                }
+              ]
             }
           },
           {
             "shape": "flow",
             "attrs": {
               "line": {
-                "stroke": "#333333",
+                "stroke": "red",
                 "strokeWidth": 1.5,
                 "targetMarker": {
                   "name": "block"
@@ -464,8 +773,22 @@
               "isEncrypted": false,
               "isPublicNetwork": true,
               "isBidirectional": true,
-              "hasOpenThreats": false,
-              "threats": []
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "c613da93-ad95-49cc-95d2-b04d45fa44d3",
+                  "title": "AMZ-02 · Suplantación de remitente o dominio en correo electrónico",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Spoofing",
+                  "description": "Escenario: Un correo falso que simula una asignación de Vivaro induce al proveedor a ejecutar un cambio.\nEvento NIST SP 800-30 (Tabla E-2): Craft phishing attacks.\nFuente de amenaza (Tabla D-2): Adversarial – Outsider (externo)\nTendencia del sector: Alta (FT-02; FT-03)\nActividad del procedimiento: 6.2.2.4\nJustificación: La asignación puede hacerse por correo, según el proveedor.\nCriterios: frontera Sí, multicliente No, sin control Sí | Puntaje 32 (lugar 9)",
+                  "mitigation": "ISO/IEC 27001:2022 A.5.14; A.8.7; A.8.23; A.6.3 – Validación de cada asignación contra el sistema de tickets; DMARC.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 24,
+                  "score": "32"
+                }
+              ]
             }
           },
           {
@@ -523,7 +846,7 @@
             "shape": "flow",
             "attrs": {
               "line": {
-                "stroke": "#333333",
+                "stroke": "red",
                 "strokeWidth": 1.5,
                 "targetMarker": {
                   "name": "block"
@@ -566,8 +889,35 @@
               "isEncrypted": true,
               "isPublicNetwork": true,
               "isBidirectional": false,
-              "hasOpenThreats": false,
-              "threats": []
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "87ceb023-6cb5-43ee-8423-f916399766a0",
+                  "title": "AMZ-16 · Explotación de sistemas mal configurados expuestos a Internet",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Elevation of privilege",
+                  "description": "Escenario: La interfaz de administración de los equipos del cliente queda accesible desde Internet para que el proveedor N2 la opere.\nEvento NIST SP 800-30 (Tabla E-2): Exploit poorly configured or unauthorized information systems exposed to the Internet.\nFuente de amenaza (Tabla D-2): Adversarial – Outsider (externo)\nTendencia del sector: Alta (FT-01; FT-02)\nActividad del procedimiento: 6.2.2.5\nJustificación: No se define el canal permitido para la administración remota.\nCriterios: frontera Sí, multicliente Sí, sin control Sí | Puntaje 33 (lugar 4)",
+                  "mitigation": "ISO/IEC 27001:2022 A.8.9; A.8.20; A.8.21; A.8.22 – Administración solo por VPN o servidor de salto con IPs restringidas.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 5,
+                  "score": "33"
+                },
+                {
+                  "id": "29a3ee6f-501e-468c-9b89-ad9e6a82f6f9",
+                  "title": "AMZ-06 · Secuestro de una sesión legítima establecida",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Spoofing",
+                  "description": "Escenario: Toma de control de la sesión administrativa remota del proveedor.\nEvento NIST SP 800-30 (Tabla E-2): Conduct externally-based session hijacking.\nFuente de amenaza (Tabla D-2): Adversarial – Outsider (externo)\nTendencia del sector: Media (FT-03)\nActividad del procedimiento: 6.2.2.5\nJustificación: No se definen controles de sesión privilegiada.\nCriterios: frontera Sí, multicliente Sí, sin control Sí | Puntaje 23 (lugar 12)",
+                  "mitigation": "ISO/IEC 27001:2022 A.8.5; A.8.20; A.8.24; A.6.7 – Sesiones cifradas con expiración, MFA y grabación.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 11,
+                  "score": "23"
+                }
+              ]
             }
           },
           {
@@ -676,7 +1026,7 @@
             "shape": "flow",
             "attrs": {
               "line": {
-                "stroke": "#333333",
+                "stroke": "red",
                 "strokeWidth": 1.5,
                 "targetMarker": {
                   "name": "block"
@@ -728,8 +1078,22 @@
               "isEncrypted": false,
               "isPublicNetwork": true,
               "isBidirectional": false,
-              "hasOpenThreats": false,
-              "threats": []
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "4ffefc8d-d500-4c0d-94e2-9dea8ee43fda",
+                  "title": "AMZ-10 · Manejo inadecuado de información sensible por usuarios autorizados",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Information disclosure",
+                  "description": "Escenario: La notificación con detalles técnicos llega a un contacto no autorizado.\nEvento NIST SP 800-30 (Tabla E-3): Mishandling of critical and/or sensitive information by authorized users.\nFuente de amenaza (Tabla D-2): Accidental – Privileged User/Administrator (usuario privilegiado)\nTendencia del sector: Media (FT-01)\nActividad del procedimiento: 6.2.2.7\nJustificación: No se valida el destinatario contra los contactos autorizados.\nCriterios: frontera Sí, multicliente No, sin control Sí | Puntaje 22 (lugar 21)",
+                  "mitigation": "ISO/IEC 27001:2022 A.5.12; A.5.13; A.5.14; A.6.3; A.8.12; A.5.10 – Enviar solo a contactos registrados y minimizar el detalle técnico.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 25,
+                  "score": "22"
+                }
+              ]
             }
           },
           {
@@ -931,10 +1295,2408 @@
           }
         ],
         "description": "Recepción, validación, asignación, resolución y cierre de requerimientos de clientes de EDR y Firewall Administrado, con terceros N1 y N2 y fronteras de confianza."
+      },
+      {
+        "id": 1,
+        "title": "DFD 2 – PRO-COP-TDI-8.3.8 Gestión del Ciclo de Vida de Identidad de TI",
+        "diagramType": "STRIDE",
+        "placeholder": "New STRIDE diagram description",
+        "thumbnail": "./public/content/images/thumbnail.stride.jpg",
+        "version": "2.6.2",
+        "cells": [
+          {
+            "position": {
+              "x": 40,
+              "y": -80
+            },
+            "size": {
+              "width": 130,
+              "height": 130
+            },
+            "attrs": {
+              "text": {
+                "text": "Gestión de Solicitudes de TI (PRO-COP-TDI-8.7.8)"
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "id": "b2743ecb-6fb8-4048-95ac-3323b6f76854",
+            "zIndex": 1,
+            "data": {
+              "type": "tm.Process",
+              "name": "Gestión de Solicitudes de TI (PRO-COP-TDI-8.7.8)",
+              "description": "Canaliza las solicitudes identificadas como movimientos de identidad.",
+              "outOfScope": true,
+              "reasonOutOfScope": "Proceso relacionado; se modela en su propio diagrama.",
+              "hasOpenThreats": false,
+              "threats": [],
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": false,
+              "privilegeLevel": ""
+            }
+          },
+          {
+            "position": {
+              "x": 30,
+              "y": 420
+            },
+            "size": {
+              "width": 190,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "Área Solicitante"
+              },
+              "body": {
+                "stroke": "red"
+              }
+            },
+            "visible": true,
+            "shape": "actor",
+            "id": "b95e67b8-6da6-4183-a280-19952a2df54d",
+            "zIndex": 2,
+            "data": {
+              "type": "tm.Actor",
+              "name": "Área Solicitante",
+              "description": "Genera la necesidad del movimiento y confirma la conformidad (8.3.8.8).",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "0f23b4db-749d-478e-8e05-14098ba38f6a",
+                  "title": "AMZ-01 · Suplantación de un solicitante autorizado mediante ingeniería social",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Spoofing",
+                  "description": "Escenario: Alguien solicita un alta o un cambio de accesos a nombre de un área sin estar facultado.\nEvento NIST SP 800-30 (Tabla E-2): Conduct outsider-based social engineering to obtain information.\nFuente de amenaza (Tabla D-2): Adversarial – Outsider (externo)\nTendencia del sector: Alta (FT-01; FT-03)\nActividad del procedimiento: 8.3.8.1–8.3.8.2\nJustificación: Se valida que proceda sobre el recurso, no la facultad del solicitante.\nCriterios: frontera Sí, multicliente No, sin control Sí | Puntaje 32 (lugar 2)",
+                  "mitigation": "ISO/IEC 27001:2022 A.5.16; A.5.17; A.8.5; A.6.3 – Validar al solicitante contra el jefe inmediato o una lista de autorizadores por área.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 27,
+                  "score": "32"
+                },
+                {
+                  "id": "94ba3bd6-5e3d-4072-b0da-50c6717c54c4",
+                  "title": "AMZ-24 · Negación de una solicitud o acción sin evidencia suficiente",
+                  "status": "Open",
+                  "severity": "Low",
+                  "type": "Repudiation",
+                  "description": "Escenario: El área niega haber solicitado o confirmado el movimiento.\nEvento NIST SP 800-30 (Tabla E-5 (org.)): Organization-defined: Repudiation of a request or action.\nFuente de amenaza (Tabla D-2): Adversarial – Customer (cliente) / Insider (interno)\nTendencia del sector: Baja (sin mención relevante en fuentes del sector)\nActividad del procedimiento: 8.3.8.8\nJustificación: 8.3.8.8 genera evidencia de conformidad.\nCriterios: frontera Sí, multicliente No, sin control No | Puntaje 11 (lugar 21)",
+                  "mitigation": "ISO/IEC 27001:2022 A.8.15; A.5.33; A.8.17 – Conservar la evidencia de conformidad.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 46,
+                  "score": "11"
+                }
+              ],
+              "providesAuthentication": false
+            }
+          },
+          {
+            "position": {
+              "x": 330,
+              "y": 60
+            },
+            "size": {
+              "width": 190,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "Soporte TI"
+              }
+            },
+            "visible": true,
+            "shape": "actor",
+            "id": "d798c970-01d9-47c8-b0e5-4a2d8e891b4e",
+            "zIndex": 3,
+            "data": {
+              "type": "tm.Actor",
+              "name": "Soporte TI",
+              "description": "Registra y clasifica el movimiento (8.3.8.1) y notifica al solicitante (8.3.8.7).",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "threats": [],
+              "providesAuthentication": false
+            }
+          },
+          {
+            "position": {
+              "x": 360,
+              "y": 360
+            },
+            "size": {
+              "width": 130,
+              "height": 130
+            },
+            "attrs": {
+              "text": {
+                "text": "Plataforma de Gestión de Tickets"
+              },
+              "body": {
+                "stroke": "red"
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "id": "91921a74-d7f2-4db6-b019-3c304ed7041b",
+            "zIndex": 4,
+            "data": {
+              "type": "tm.Process",
+              "name": "Plataforma de Gestión de Tickets",
+              "description": "Registro, autorización, perfil, evidencias y cierre de movimientos de identidad (8.3.8.1–8.3.8.8).",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "2512bc9e-e670-470a-897f-4254078e9e35",
+                  "title": "AMZ-13 · Acceso que excede la autorización otorgada",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Elevation of privilege",
+                  "description": "Escenario: Un usuario aprueba solicitudes de recursos de los que no es dueño.\nEvento NIST SP 800-30 (Tabla E-2): Obtain unauthorized access.\nFuente de amenaza (Tabla D-2): Adversarial – Insider (interno)\nTendencia del sector: Media (FT-02)\nActividad del procedimiento: 8.3.8.2–8.3.8.3\nJustificación: No se define que el flujo de aprobación restrinja al aprobador.\nCriterios: frontera No, multicliente No, sin control Sí | Puntaje 21 (lugar 12)",
+                  "mitigation": "ISO/IEC 27001:2022 A.5.15; A.5.18; A.8.2; A.8.3 – Flujo de aprobación con aprobador predefinido por recurso.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 38,
+                  "score": "21"
+                },
+                {
+                  "id": "ad446758-e8a6-4817-a7aa-6dc838b09ffd",
+                  "title": "AMZ-19 · Inyección de datos falsos pero creíbles",
+                  "status": "Open",
+                  "severity": "Low",
+                  "type": "Tampering",
+                  "description": "Escenario: Se registra una autorización falsa o se cambia el estado de una solicitud a 'autorizada'.\nEvento NIST SP 800-30 (Tabla E-2): Cause integrity loss by injecting false but believable data into organizational information systems.\nFuente de amenaza (Tabla D-2): Adversarial – Insider (interno)\nTendencia del sector: Baja (sin mención relevante en fuentes del sector)\nActividad del procedimiento: 8.3.8.2–8.3.8.3\nJustificación: No se exige bitácora de cambios de estado del ticket.\nCriterios: frontera No, multicliente No, sin control Sí | Puntaje 11 (lugar 20)",
+                  "mitigation": "ISO/IEC 27001:2022 A.8.15; A.5.33; A.8.32 – Bitácora de auditoría y autorización registrada por el propio aprobador.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 39,
+                  "score": "11"
+                },
+                {
+                  "id": "9c910c1c-25fe-4050-a0af-5bef3c883742",
+                  "title": "AMZ-04 · Uso indebido de cuentas compartidas o genéricas",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Spoofing",
+                  "description": "Escenario: Soporte TI o los dueños de recursos comparten cuentas en la plataforma de tickets.\nEvento NIST SP 800-30 (Tabla E-5 (org.)): Organization-defined: Misuse of shared or generic accounts.\nFuente de amenaza (Tabla D-2): Adversarial – Insider (interno)\nTendencia del sector: Media (FT-02)\nActividad del procedimiento: 8.3.8.1–8.3.8.8\nJustificación: No se exige el uso de cuentas nominales.\nCriterios: frontera No, multicliente No, sin control Sí | Puntaje 21 (lugar 13)",
+                  "mitigation": "ISO/IEC 27001:2022 A.5.16; A.5.18; A.8.2; A.8.5; A.8.15 – Cuentas nominales con MFA.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 40,
+                  "score": "21"
+                },
+                {
+                  "id": "ad404820-dcbd-4d01-9b90-13ffc301a222",
+                  "title": "AMZ-17 · Explotación de vulnerabilidades recién descubiertas",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Elevation of privilege",
+                  "description": "Escenario: Explotación de una vulnerabilidad de la plataforma de tickets.\nEvento NIST SP 800-30 (Tabla E-2): Exploit recently discovered vulnerabilities.\nFuente de amenaza (Tabla D-2): Adversarial – Outsider (externo)\nTendencia del sector: Alta (FT-01; FT-02; FT-03)\nActividad del procedimiento: 8.3.8.1–8.3.8.8\nJustificación: No se definen requisitos de seguridad de la plataforma.\nCriterios: frontera No, multicliente No, sin control Sí | Puntaje 31 (lugar 4)",
+                  "mitigation": "ISO/IEC 27001:2022 A.8.8; A.5.7; A.8.9 – Gestión de parches y pruebas de seguridad.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 47,
+                  "score": "31"
+                },
+                {
+                  "id": "d703efe8-07f2-4232-8999-5fe430848124",
+                  "title": "AMZ-30 · Agotamiento de recursos",
+                  "status": "Open",
+                  "severity": "Low",
+                  "type": "Denial of service",
+                  "description": "Escenario: La acumulación de solicitudes retrasa la ejecución de las bajas.\nEvento NIST SP 800-30 (Tabla E-3): Resource depletion.\nFuente de amenaza (Tabla D-2): Structural – Processing (procesamiento)\nTendencia del sector: Baja (sin mención relevante en fuentes del sector)\nActividad del procedimiento: 8.3.8.1\nJustificación: No se definen tiempos máximos para las bajas.\nCriterios: frontera No, multicliente No, sin control Sí | Puntaje 11 (lugar 22)",
+                  "mitigation": "ISO/IEC 27001:2022 A.8.6; A.8.16 – Tiempos objetivo diferenciados con prioridad a las bajas.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 49,
+                  "score": "11"
+                }
+              ],
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": true,
+              "privilegeLevel": "Medio"
+            }
+          },
+          {
+            "position": {
+              "x": 320,
+              "y": 620
+            },
+            "size": {
+              "width": 210,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "Tickets y evidencias de autorización"
+              },
+              "topLine": {
+                "stroke": "red"
+              },
+              "bottomLine": {
+                "stroke": "red"
+              }
+            },
+            "visible": true,
+            "shape": "store",
+            "id": "46562a43-d123-423f-be40-f0b32315f6a5",
+            "zIndex": 5,
+            "data": {
+              "type": "tm.Store",
+              "name": "Tickets y evidencias de autorización",
+              "description": "Tickets, autorizaciones, registros de ejecución y evidencia de conformidad.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "77bf5a51-a574-42b5-8162-ce23663d0f8f",
+                  "title": "AMZ-11 · Registro de información sensible en sistemas no autorizados",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Information disclosure",
+                  "description": "Escenario: Se registran contraseñas iniciales en el ticket o en la notificación.\nEvento NIST SP 800-30 (Tabla E-3): Spill sensitive information.\nFuente de amenaza (Tabla D-2): Accidental – User (usuario)\nTendencia del sector: Media (FT-02)\nActividad del procedimiento: 8.3.8.5–8.3.8.7\nJustificación: No se prohíbe registrar credenciales.\nCriterios: frontera No, multicliente No, sin control Sí | Puntaje 21 (lugar 14)",
+                  "mitigation": "ISO/IEC 27001:2022 A.5.12; A.5.17; A.8.11; A.8.12 – Entrega de credenciales por canal separado y prohibición de registrarlas en tickets.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 42,
+                  "score": "21"
+                }
+              ],
+              "isALog": true,
+              "isEncrypted": false,
+              "isSigned": false,
+              "storesCredentials": false,
+              "storesInventory": false
+            }
+          },
+          {
+            "position": {
+              "x": 620,
+              "y": 60
+            },
+            "size": {
+              "width": 190,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "Gerente de TI"
+              },
+              "body": {
+                "stroke": "red"
+              }
+            },
+            "visible": true,
+            "shape": "actor",
+            "id": "7baec7df-07d4-4372-96f7-a6c31e37a8f8",
+            "zIndex": 6,
+            "data": {
+              "type": "tm.Actor",
+              "name": "Gerente de TI",
+              "description": "Autoriza solicitudes de acceso privilegiado o escaladas (8.3.8.3).",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "9bcf10b4-20fe-4110-9024-ed14da16a5e7",
+                  "title": "AMZ-24 · Negación de una solicitud o acción sin evidencia suficiente",
+                  "status": "Open",
+                  "severity": "Low",
+                  "type": "Repudiation",
+                  "description": "Escenario: La Gerencia niega haber autorizado un acceso privilegiado.\nEvento NIST SP 800-30 (Tabla E-5 (org.)): Organization-defined: Repudiation of a request or action.\nFuente de amenaza (Tabla D-2): Adversarial – Customer (cliente) / Insider (interno)\nTendencia del sector: Baja (sin mención relevante en fuentes del sector)\nActividad del procedimiento: 8.3.8.3\nJustificación: La autorización queda registrada en el ticket.\nCriterios: frontera No, multicliente No, sin control No | Puntaje 10 (lugar 23)",
+                  "mitigation": "ISO/IEC 27001:2022 A.8.15; A.5.33; A.8.17 – Mantener la autorización con usuario nominal y sello de tiempo.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 45,
+                  "score": "10"
+                }
+              ],
+              "providesAuthentication": false
+            }
+          },
+          {
+            "position": {
+              "x": 620,
+              "y": 380
+            },
+            "size": {
+              "width": 190,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "Dueño del Recurso"
+              },
+              "body": {
+                "stroke": "red"
+              }
+            },
+            "visible": true,
+            "shape": "actor",
+            "id": "ae63b16a-b829-4ed1-8ca3-3bb028733536",
+            "zIndex": 7,
+            "data": {
+              "type": "tm.Actor",
+              "name": "Dueño del Recurso",
+              "description": "Valida y autoriza, define el perfil, ejecuta y verifica el movimiento (8.3.8.2, 8.3.8.4–8.3.8.6).",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "696b78e0-d145-44d3-93d5-b2bf59bb8c84",
+                  "title": "AMZ-15 · Persona malintencionada en posición privilegiada",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Elevation of privilege",
+                  "description": "Escenario: El Dueño del Recurso autoriza, define el perfil, ejecuta y verifica el mismo movimiento, lo que le permite otorgarse u otorgar accesos indebidos.\nEvento NIST SP 800-30 (Tabla E-2): Insert subverted individuals into privileged positions in organizations.\nFuente de amenaza (Tabla D-2): Adversarial – Privileged Insider (interno privilegiado)\nTendencia del sector: Media (FT-02; FT-04)\nActividad del procedimiento: 8.3.8.2–8.3.8.6\nJustificación: El procedimiento concentra autorización y ejecución en el mismo rol, contrario a la segregación de funciones que el propio documento cita (A.5.3).\nCriterios: frontera No, multicliente Sí, sin control Sí | Puntaje 22 (lugar 10)",
+                  "mitigation": "ISO/IEC 27001:2022 A.6.1; A.6.6; A.5.3; A.8.2; A.8.15; A.6.4 – Separar la ejecución técnica de la autorización y agregar verificación independiente.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 28,
+                  "score": "22"
+                },
+                {
+                  "id": "3b69aa95-9c02-4ec0-8449-668fd8ca0d04",
+                  "title": "AMZ-04 · Uso indebido de cuentas compartidas o genéricas",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Spoofing",
+                  "description": "Escenario: Los movimientos se ejecutan con cuentas administrativas genéricas, sin atribución individual.\nEvento NIST SP 800-30 (Tabla E-5 (org.)): Organization-defined: Misuse of shared or generic accounts.\nFuente de amenaza (Tabla D-2): Adversarial – Insider (interno)\nTendencia del sector: Media (FT-02)\nActividad del procedimiento: 8.3.8.5\nJustificación: No se exige el uso de cuentas nominales de administración.\nCriterios: frontera Sí, multicliente Sí, sin control Sí | Puntaje 23 (lugar 6)",
+                  "mitigation": "ISO/IEC 27001:2022 A.5.16; A.5.18; A.8.2; A.8.5; A.8.15 – Cuentas nominales de administración y gestión de accesos privilegiados.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 29,
+                  "score": "23"
+                },
+                {
+                  "id": "472b366b-0713-444e-8c58-a0e68741d628",
+                  "title": "AMZ-14 · Asignación incorrecta de privilegios",
+                  "status": "Open",
+                  "severity": "Low",
+                  "type": "Elevation of privilege",
+                  "description": "Escenario: Se asigna un perfil con más permisos de los necesarios por no existir perfiles definidos por rol.\nEvento NIST SP 800-30 (Tabla E-3): Incorrect privilege settings.\nFuente de amenaza (Tabla D-2): Accidental – Privileged User/Administrator (usuario privilegiado)\nTendencia del sector: Baja (sin mención relevante en fuentes del sector)\nActividad del procedimiento: 8.3.8.4\nJustificación: 8.3.8.4 define el perfil caso por caso, sin referencia a una matriz de roles.\nCriterios: frontera No, multicliente Sí, sin control Sí | Puntaje 12 (lugar 16)",
+                  "mitigation": "ISO/IEC 27001:2022 A.5.15; A.5.18; A.8.2 – Matriz de perfiles por rol aprobada y revisión de excepciones.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 33,
+                  "score": "12"
+                }
+              ],
+              "providesAuthentication": false
+            }
+          },
+          {
+            "position": {
+              "x": 960,
+              "y": 360
+            },
+            "size": {
+              "width": 140,
+              "height": 140
+            },
+            "attrs": {
+              "text": {
+                "text": "Sistemas y recursos de TI"
+              },
+              "body": {
+                "stroke": "red"
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "id": "a705d00d-54fe-4958-8de3-ac22c18d090d",
+            "zIndex": 8,
+            "data": {
+              "type": "tm.Process",
+              "name": "Sistemas y recursos de TI",
+              "description": "Sistemas, aplicaciones y plataformas donde se ejecutan altas, bajas y cambios, incluidas las plataformas de servicio a clientes.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "cb0a5ea6-47df-4492-b3c4-6ac2fcd6b8ca",
+                  "title": "AMZ-39 · Uso de accesos vigentes de personal dado de baja",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Spoofing",
+                  "description": "Escenario: Personal que dejó la organización conserva accesos activos porque la baja depende de que el área la solicite.\nEvento NIST SP 800-30 (Tabla E-5 (org.)): Organization-defined: Use of active access by former personnel.\nFuente de amenaza (Tabla D-2): Adversarial – Outsider (externo; ex personal interno o de proveedor)\nTendencia del sector: Media (FT-04)\nActividad del procedimiento: 8.3.8.5\nJustificación: El proceso no se vincula con la terminación laboral ni con revisiones periódicas de cuentas.\nCriterios: frontera Sí, multicliente Sí, sin control Sí | Puntaje 23 (lugar 5)",
+                  "mitigation": "ISO/IEC 27001:2022 A.5.18; A.6.5; A.5.19; A.5.20 – Disparador de bajas desde Capital Humano y revisión periódica de cuentas.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 26,
+                  "score": "23"
+                },
+                {
+                  "id": "3b3c41a5-f46c-4227-bae5-a306dba0b6f0",
+                  "title": "AMZ-03 · Adivinación o fuerza bruta de contraseñas",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Spoofing",
+                  "description": "Escenario: Contraseñas iniciales predecibles en altas nuevas permiten el acceso por adivinación.\nEvento NIST SP 800-30 (Tabla E-2): Conduct brute force login attempts/password guessing attacks.\nFuente de amenaza (Tabla D-2): Adversarial – Outsider (externo)\nTendencia del sector: Media (FT-01; FT-02)\nActividad del procedimiento: 8.3.8.5\nJustificación: No se definen reglas para las credenciales iniciales.\nCriterios: frontera Sí, multicliente Sí, sin control Sí | Puntaje 23 (lugar 9)",
+                  "mitigation": "ISO/IEC 27001:2022 A.5.17; A.8.5 – Contraseñas iniciales aleatorias de un solo uso y cambio obligatorio en el primer acceso.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 35,
+                  "score": "23"
+                },
+                {
+                  "id": "196fe0f1-1d33-4f05-b3b1-38c14baa613f",
+                  "title": "AMZ-21 · Cambio erróneo o no autorizado en la configuración de seguridad",
+                  "status": "Open",
+                  "severity": "Low",
+                  "type": "Tampering",
+                  "description": "Escenario: Se ejecuta un movimiento distinto al autorizado (recurso equivocado o baja incompleta).\nEvento NIST SP 800-30 (Tabla E-5 (org.)): Organization-defined: Erroneous or unauthorized change to security configuration.\nFuente de amenaza (Tabla D-2): Accidental – Privileged User/Administrator (usuario privilegiado)\nTendencia del sector: Baja (sin mención relevante en fuentes del sector)\nActividad del procedimiento: 8.3.8.5\nJustificación: 8.3.8.6 verifica el funcionamiento del perfil asignado.\nCriterios: frontera Sí, multicliente Sí, sin control No | Puntaje 12 (lugar 17)",
+                  "mitigation": "ISO/IEC 27001:2022 A.8.32; A.8.9; A.8.13; A.5.3; A.5.37 – Verificar el perfil aplicado contra el autorizado, no solo su funcionamiento.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 36,
+                  "score": "12"
+                }
+              ],
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": false,
+              "privilegeLevel": "Alto"
+            }
+          },
+          {
+            "position": {
+              "x": 930,
+              "y": 620
+            },
+            "size": {
+              "width": 210,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "Directorio de identidades y perfiles"
+              },
+              "topLine": {
+                "stroke": "red"
+              },
+              "bottomLine": {
+                "stroke": "red"
+              }
+            },
+            "visible": true,
+            "shape": "store",
+            "id": "5539c1d8-82f8-406a-a8ab-0a36d62d9fad",
+            "zIndex": 9,
+            "data": {
+              "type": "tm.Store",
+              "name": "Directorio de identidades y perfiles",
+              "description": "Cuentas, grupos y perfiles de acceso.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "35e780b1-9b02-4a41-89fe-2b1d1efc7e10",
+                  "title": "AMZ-12 · Exfiltración de información sensible",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Information disclosure",
+                  "description": "Escenario: Extracción de información de identidades y credenciales del directorio.\nEvento NIST SP 800-30 (Tabla E-2): Obtain sensitive information via exfiltration.\nFuente de amenaza (Tabla D-2): Adversarial – Outsider (externo)\nTendencia del sector: Media (FT-01)\nActividad del procedimiento: 8.3.8.5\nJustificación: El procedimiento no considera la protección del repositorio de identidades.\nCriterios: frontera Sí, multicliente Sí, sin control Sí | Puntaje 23 (lugar 8)",
+                  "mitigation": "ISO/IEC 27001:2022 A.8.7; A.8.12; A.8.16; A.8.24 – Restricción de acceso, monitoreo y cifrado del repositorio.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 31,
+                  "score": "23"
+                },
+                {
+                  "id": "2fc51588-a763-48c4-852d-a1e8e8c180f1",
+                  "title": "AMZ-25 · Introducción de código malicioso conocido (incluye ransomware)",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Tampering",
+                  "description": "Escenario: Ransomware compromete el directorio e impide la autenticación en todos los sistemas.\nEvento NIST SP 800-30 (Tabla E-2): Deliver known malware to internal organizational information systems (e.g., virus via email).\nFuente de amenaza (Tabla D-2): Adversarial – Outsider (externo)\nTendencia del sector: Alta (FT-01; FT-03)\nActividad del procedimiento: 8.3.8.5\nJustificación: No se definen respaldos del directorio.\nCriterios: frontera Sí, multicliente Sí, sin control Sí | Puntaje 33 (lugar 1)",
+                  "mitigation": "ISO/IEC 27001:2022 A.8.7; A.8.8; A.8.13; A.6.3 – Respaldos aislados del directorio y pruebas de restauración.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 32,
+                  "score": "33"
+                },
+                {
+                  "id": "a366a404-ab78-47a0-a97f-317c77deda12",
+                  "title": "AMZ-20 · Corrupción de datos críticos",
+                  "status": "Open",
+                  "severity": "Low",
+                  "type": "Tampering",
+                  "description": "Escenario: Se crean o modifican cuentas y grupos directamente en el directorio, fuera del proceso.\nEvento NIST SP 800-30 (Tabla E-2): Cause integrity loss by polluting or corrupting critical data.\nFuente de amenaza (Tabla D-2): Adversarial – Outsider (externo)\nTendencia del sector: Baja (sin mención relevante en fuentes del sector)\nActividad del procedimiento: 8.3.8.5\nJustificación: No se concilian los cambios del directorio contra los tickets.\nCriterios: frontera Sí, multicliente Sí, sin control Sí | Puntaje 13 (lugar 15)",
+                  "mitigation": "ISO/IEC 27001:2022 A.8.13; A.8.15; A.8.24; A.8.3 – Conciliación periódica de cambios del directorio contra tickets aprobados.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 34,
+                  "score": "13"
+                },
+                {
+                  "id": "ce08a70c-6393-4cb4-8eb9-e4143b7e80b2",
+                  "title": "AMZ-23 · Eliminación o alteración de bitácoras y evidencias",
+                  "status": "Open",
+                  "severity": "Low",
+                  "type": "Repudiation",
+                  "description": "Escenario: Se borran o alteran las bitácoras de cambios de identidad para ocultar accesos indebidos.\nEvento NIST SP 800-30 (Tabla E-2): Obfuscate adversary actions.\nFuente de amenaza (Tabla D-2): Adversarial – Insider (interno)\nTendencia del sector: Baja (sin mención relevante en fuentes del sector)\nActividad del procedimiento: 8.3.8.5\nJustificación: No se definen bitácoras protegidas de cambios de identidad.\nCriterios: frontera Sí, multicliente No, sin control Sí | Puntaje 12 (lugar 18)",
+                  "mitigation": "ISO/IEC 27001:2022 A.8.15; A.5.28; A.5.33; A.8.17 – Envío de bitácoras a un repositorio independiente y protegido.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 37,
+                  "score": "12"
+                }
+              ],
+              "isALog": false,
+              "isEncrypted": false,
+              "isSigned": false,
+              "storesCredentials": true,
+              "storesInventory": false
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "red",
+                "strokeWidth": 1.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 20,
+            "connector": "smooth",
+            "id": "757c2cd1-14ad-4a4a-a31a-f7c9ef7a828c",
+            "labels": [
+              {
+                "position": 0.5,
+                "attrs": {
+                  "label": {
+                    "text": "2.1 Solicitud derivada de movimiento de identidad"
+                  }
+                }
+              }
+            ],
+            "source": {
+              "cell": "b2743ecb-6fb8-4048-95ac-3323b6f76854"
+            },
+            "target": {
+              "cell": "91921a74-d7f2-4db6-b019-3c304ed7041b"
+            },
+            "vertices": [],
+            "data": {
+              "type": "tm.Flow",
+              "name": "2.1 Solicitud derivada de movimiento de identidad",
+              "description": "Entrada desde PRO-COP-TDI-8.7.8.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "protocol": "HTTPS",
+              "isEncrypted": true,
+              "isPublicNetwork": false,
+              "isBidirectional": false,
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "0275a92b-e5a5-4d9e-ae3f-b627d8a8a635",
+                  "title": "AMZ-19 · Inyección de datos falsos pero creíbles",
+                  "status": "Open",
+                  "severity": "Low",
+                  "type": "Tampering",
+                  "description": "Escenario: La solicitud derivada llega con datos alterados (usuario o recurso distinto).\nEvento NIST SP 800-30 (Tabla E-2): Cause integrity loss by injecting false but believable data into organizational information systems.\nFuente de amenaza (Tabla D-2): Adversarial – Insider (interno)\nTendencia del sector: Baja (sin mención relevante en fuentes del sector)\nActividad del procedimiento: 8.3.8.1\nJustificación: 8.3.8.2 valida la solicitud con el Dueño del Recurso.\nCriterios: frontera No, multicliente No, sin control No | Puntaje 10 (lugar 24)",
+                  "mitigation": "ISO/IEC 27001:2022 A.8.15; A.5.33; A.8.32 – Validar los datos de la solicitud contra el inventario de usuarios.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 48,
+                  "score": "10"
+                }
+              ]
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": "block"
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 21,
+            "connector": "smooth",
+            "id": "db926e13-de9a-41f0-8eb3-4c032a33701d",
+            "labels": [
+              {
+                "position": 0.5,
+                "attrs": {
+                  "label": {
+                    "text": "2.2 Registro y clasificación"
+                  }
+                }
+              }
+            ],
+            "source": {
+              "cell": "d798c970-01d9-47c8-b0e5-4a2d8e891b4e"
+            },
+            "target": {
+              "cell": "91921a74-d7f2-4db6-b019-3c304ed7041b"
+            },
+            "vertices": [],
+            "data": {
+              "type": "tm.Flow",
+              "name": "2.2 Registro y clasificación",
+              "description": "8.3.8.1",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "protocol": "HTTPS",
+              "isEncrypted": true,
+              "isPublicNetwork": false,
+              "isBidirectional": true,
+              "hasOpenThreats": false,
+              "threats": []
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": "block"
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 22,
+            "connector": "smooth",
+            "id": "6896ebff-f2fe-4d74-ac8f-ddcbc3f2329e",
+            "labels": [
+              {
+                "position": 0.5,
+                "attrs": {
+                  "label": {
+                    "text": "2.3 Validación, perfil y verificación"
+                  }
+                }
+              }
+            ],
+            "source": {
+              "cell": "ae63b16a-b829-4ed1-8ca3-3bb028733536"
+            },
+            "target": {
+              "cell": "91921a74-d7f2-4db6-b019-3c304ed7041b"
+            },
+            "vertices": [],
+            "data": {
+              "type": "tm.Flow",
+              "name": "2.3 Validación, perfil y verificación",
+              "description": "8.3.8.2, 8.3.8.4, 8.3.8.6",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "protocol": "HTTPS",
+              "isEncrypted": true,
+              "isPublicNetwork": false,
+              "isBidirectional": true,
+              "hasOpenThreats": false,
+              "threats": []
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "red",
+                "strokeWidth": 1.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": "block"
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 23,
+            "connector": "smooth",
+            "id": "1695fc4c-432a-4037-919a-eb59e0b767f8",
+            "labels": [
+              {
+                "position": 0.5,
+                "attrs": {
+                  "label": {
+                    "text": "2.4 Autorización de acceso privilegiado"
+                  }
+                }
+              }
+            ],
+            "source": {
+              "cell": "7baec7df-07d4-4372-96f7-a6c31e37a8f8"
+            },
+            "target": {
+              "cell": "91921a74-d7f2-4db6-b019-3c304ed7041b"
+            },
+            "vertices": [],
+            "data": {
+              "type": "tm.Flow",
+              "name": "2.4 Autorización de acceso privilegiado",
+              "description": "8.3.8.3",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "protocol": "HTTPS",
+              "isEncrypted": true,
+              "isPublicNetwork": false,
+              "isBidirectional": true,
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "21a1db01-e108-4de7-abc6-08242eee10fe",
+                  "title": "AMZ-02 · Suplantación de remitente o dominio en correo electrónico",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Spoofing",
+                  "description": "Escenario: Un correo que suplanta a la Gerencia de TI aprueba un acceso privilegiado.\nEvento NIST SP 800-30 (Tabla E-2): Craft phishing attacks.\nFuente de amenaza (Tabla D-2): Adversarial – Outsider (externo)\nTendencia del sector: Alta (FT-02; FT-03)\nActividad del procedimiento: 8.3.8.3\nJustificación: No se exige que la autorización la registre el propio aprobador en la plataforma.\nCriterios: frontera No, multicliente Sí, sin control Sí | Puntaje 32 (lugar 3)",
+                  "mitigation": "ISO/IEC 27001:2022 A.5.14; A.8.7; A.8.23; A.6.3 – Aprobación solo dentro de la plataforma, con la cuenta del aprobador.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 41,
+                  "score": "32"
+                }
+              ]
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "red",
+                "strokeWidth": 1.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 24,
+            "connector": "smooth",
+            "id": "b229f4bf-480b-4cd1-8d8c-f54350e6784e",
+            "labels": [
+              {
+                "position": 0.5,
+                "attrs": {
+                  "label": {
+                    "text": "2.5 Ejecución técnica del movimiento"
+                  }
+                }
+              }
+            ],
+            "source": {
+              "cell": "ae63b16a-b829-4ed1-8ca3-3bb028733536"
+            },
+            "target": {
+              "cell": "a705d00d-54fe-4958-8de3-ac22c18d090d"
+            },
+            "vertices": [],
+            "data": {
+              "type": "tm.Flow",
+              "name": "2.5 Ejecución técnica del movimiento",
+              "description": "8.3.8.5 y 8.3.8.6",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "protocol": "Consola administrativa / RDP / SSH",
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "isBidirectional": false,
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "2a54f19d-f7da-46b0-ba29-d516e6e9cda2",
+                  "title": "AMZ-06 · Secuestro de una sesión legítima establecida",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Spoofing",
+                  "description": "Escenario: Toma de control de la sesión administrativa con la que se ejecutan altas, bajas o cambios.\nEvento NIST SP 800-30 (Tabla E-2): Conduct externally-based session hijacking.\nFuente de amenaza (Tabla D-2): Adversarial – Outsider (externo)\nTendencia del sector: Media (FT-03)\nActividad del procedimiento: 8.3.8.5\nJustificación: No se definen controles de sesión privilegiada.\nCriterios: frontera Sí, multicliente Sí, sin control Sí | Puntaje 23 (lugar 7)",
+                  "mitigation": "ISO/IEC 27001:2022 A.8.5; A.8.20; A.8.24; A.6.7 – Sesiones privilegiadas con MFA, expiración y registro.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 30,
+                  "score": "23"
+                }
+              ]
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": "block"
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 25,
+            "connector": "smooth",
+            "id": "ecb50065-0823-4c22-9506-8c3cf7168c64",
+            "labels": [
+              {
+                "position": 0.5,
+                "attrs": {
+                  "label": {
+                    "text": "2.6 Alta, baja o cambio de cuenta"
+                  }
+                }
+              }
+            ],
+            "source": {
+              "cell": "a705d00d-54fe-4958-8de3-ac22c18d090d"
+            },
+            "target": {
+              "cell": "5539c1d8-82f8-406a-a8ab-0a36d62d9fad"
+            },
+            "vertices": [],
+            "data": {
+              "type": "tm.Flow",
+              "name": "2.6 Alta, baja o cambio de cuenta",
+              "description": "Escritura en el directorio.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "protocol": "LDAP / API",
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "isBidirectional": true,
+              "hasOpenThreats": false,
+              "threats": []
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": "block"
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 26,
+            "connector": "smooth",
+            "id": "cdf702b7-afa2-4fa3-8641-71252754d859",
+            "labels": [
+              {
+                "position": 0.5,
+                "attrs": {
+                  "label": {
+                    "text": "2.7 Registro de evidencias"
+                  }
+                }
+              }
+            ],
+            "source": {
+              "cell": "91921a74-d7f2-4db6-b019-3c304ed7041b"
+            },
+            "target": {
+              "cell": "46562a43-d123-423f-be40-f0b32315f6a5"
+            },
+            "vertices": [],
+            "data": {
+              "type": "tm.Flow",
+              "name": "2.7 Registro de evidencias",
+              "description": "Lectura y escritura de tickets.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "protocol": "SQL / interno",
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "isBidirectional": true,
+              "hasOpenThreats": false,
+              "threats": []
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "red",
+                "strokeWidth": 1.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 27,
+            "connector": "smooth",
+            "id": "9a257cf7-3dc6-4fa2-a0f2-c78216e64a1a",
+            "labels": [
+              {
+                "position": 0.5,
+                "attrs": {
+                  "label": {
+                    "text": "2.8 Notificación al solicitante"
+                  }
+                }
+              }
+            ],
+            "source": {
+              "cell": "d798c970-01d9-47c8-b0e5-4a2d8e891b4e"
+            },
+            "target": {
+              "cell": "b95e67b8-6da6-4183-a280-19952a2df54d"
+            },
+            "vertices": [],
+            "data": {
+              "type": "tm.Flow",
+              "name": "2.8 Notificación al solicitante",
+              "description": "8.3.8.7",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "protocol": "Correo (SMTP)",
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "isBidirectional": false,
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "7bd5c2c0-22e6-4ba0-84be-3478bd513d0b",
+                  "title": "AMZ-10 · Manejo inadecuado de información sensible por usuarios autorizados",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Information disclosure",
+                  "description": "Escenario: La notificación con datos de acceso llega a un destinatario incorrecto.\nEvento NIST SP 800-30 (Tabla E-3): Mishandling of critical and/or sensitive information by authorized users.\nFuente de amenaza (Tabla D-2): Accidental – Privileged User/Administrator (usuario privilegiado)\nTendencia del sector: Media (FT-01)\nActividad del procedimiento: 8.3.8.7\nJustificación: No se valida el destinatario.\nCriterios: frontera Sí, multicliente No, sin control Sí | Puntaje 22 (lugar 11)",
+                  "mitigation": "ISO/IEC 27001:2022 A.5.12; A.5.13; A.5.14; A.6.3; A.8.12; A.5.10 – Notificar solo al solicitante registrado y sin credenciales.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 43,
+                  "score": "22"
+                },
+                {
+                  "id": "62149218-c64a-49af-9aee-78fb0880d3d5",
+                  "title": "AMZ-08 · Intercepción de comunicaciones sin cifrado o con cifrado débil",
+                  "status": "Open",
+                  "severity": "Low",
+                  "type": "Information disclosure",
+                  "description": "Escenario: Datos de acceso enviados por correo se interceptan.\nEvento NIST SP 800-30 (Tabla E-2): Conduct communications interception attacks.\nFuente de amenaza (Tabla D-2): Adversarial – Outsider (externo)\nTendencia del sector: Baja (sin mención relevante en fuentes del sector)\nActividad del procedimiento: 8.3.8.7\nJustificación: No se define un canal seguro.\nCriterios: frontera Sí, multicliente No, sin control Sí | Puntaje 12 (lugar 19)",
+                  "mitigation": "ISO/IEC 27001:2022 A.5.14; A.8.20; A.8.24 – Cifrado del correo o entrega por canal separado.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 44,
+                  "score": "12"
+                }
+              ]
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 28,
+            "connector": "smooth",
+            "id": "ae48e590-bea9-4e6f-9564-ac7b3b75bed4",
+            "labels": [
+              {
+                "position": 0.5,
+                "attrs": {
+                  "label": {
+                    "text": "2.9 Confirmación de conformidad"
+                  }
+                }
+              }
+            ],
+            "source": {
+              "cell": "b95e67b8-6da6-4183-a280-19952a2df54d"
+            },
+            "target": {
+              "cell": "91921a74-d7f2-4db6-b019-3c304ed7041b"
+            },
+            "vertices": [],
+            "data": {
+              "type": "tm.Flow",
+              "name": "2.9 Confirmación de conformidad",
+              "description": "8.3.8.8",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "protocol": "HTTPS",
+              "isEncrypted": true,
+              "isPublicNetwork": false,
+              "isBidirectional": false,
+              "hasOpenThreats": false,
+              "threats": []
+            }
+          },
+          {
+            "shape": "trust-boundary-curve",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "strokeWidth": 3,
+                "strokeDasharray": "10 5",
+                "targetMarker": {
+                  "name": ""
+                },
+                "sourceMarker": {
+                  "name": ""
+                }
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 39,
+            "connector": "smooth",
+            "id": "6dfe87f4-a16f-4e47-88e6-b1532665ac77",
+            "labels": [
+              {
+                "position": 0.5,
+                "attrs": {
+                  "label": {
+                    "text": "Frontera Usuarios de negocio – TI"
+                  }
+                }
+              }
+            ],
+            "source": {
+              "x": 260,
+              "y": 250
+            },
+            "target": {
+              "x": 260,
+              "y": 580
+            },
+            "vertices": [],
+            "data": {
+              "type": "tm.Boundary",
+              "name": "Frontera Usuarios de negocio – TI",
+              "description": "Separa a las áreas usuarias del área de TI.",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            }
+          },
+          {
+            "shape": "trust-boundary-curve",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "strokeWidth": 3,
+                "strokeDasharray": "10 5",
+                "targetMarker": {
+                  "name": ""
+                },
+                "sourceMarker": {
+                  "name": ""
+                }
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 40,
+            "connector": "smooth",
+            "id": "780b1341-7c64-43db-94da-466b4974bfb4",
+            "labels": [
+              {
+                "position": 0.5,
+                "attrs": {
+                  "label": {
+                    "text": "Frontera de acceso privilegiado"
+                  }
+                }
+              }
+            ],
+            "source": {
+              "x": 850,
+              "y": 280
+            },
+            "target": {
+              "x": 850,
+              "y": 780
+            },
+            "vertices": [],
+            "data": {
+              "type": "tm.Boundary",
+              "name": "Frontera de acceso privilegiado",
+              "description": "Zona de sistemas, directorio y plataformas administradas con privilegios elevados.",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            }
+          }
+        ],
+        "description": "Registro, autorización, ejecución y verificación de altas, bajas y cambios de acceso, con autorización adicional para accesos privilegiados."
+      },
+      {
+        "id": 2,
+        "title": "DFD 3 – PRO-MOP-GOV-13.1.5 Mejora Continua",
+        "diagramType": "STRIDE",
+        "placeholder": "New STRIDE diagram description",
+        "thumbnail": "./public/content/images/thumbnail.stride.jpg",
+        "version": "2.6.2",
+        "cells": [
+          {
+            "position": {
+              "x": 30,
+              "y": 300
+            },
+            "size": {
+              "width": 190,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "Dueño del Proceso"
+              },
+              "body": {
+                "stroke": "red"
+              }
+            },
+            "visible": true,
+            "shape": "actor",
+            "id": "93e3ca6f-bd99-4563-8f8e-b1566883b8f2",
+            "zIndex": 1,
+            "data": {
+              "type": "tm.Actor",
+              "name": "Dueño del Proceso",
+              "description": "Solicita la acción de mejora (13.1.5.1).",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "275159fa-0f6e-4c1c-8ec2-db5fe96fbb3e",
+                  "title": "AMZ-01 · Suplantación de un solicitante autorizado mediante ingeniería social",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Spoofing",
+                  "description": "Escenario: Cualquier persona envía solicitudes a nombre de un dueño de proceso.\nEvento NIST SP 800-30 (Tabla E-2): Conduct outsider-based social engineering to obtain information.\nFuente de amenaza (Tabla D-2): Adversarial – Outsider (externo)\nTendencia del sector: Alta (FT-01; FT-03)\nActividad del procedimiento: 13.1.5.1\nJustificación: El formulario no exige autenticación del solicitante.\nCriterios: frontera Sí, multicliente No, sin control Sí | Puntaje 32 (lugar 3)",
+                  "mitigation": "ISO/IEC 27001:2022 A.5.16; A.5.17; A.8.5; A.6.3 – Formulario autenticado con identidad corporativa.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 54,
+                  "score": "32"
+                }
+              ],
+              "providesAuthentication": false
+            }
+          },
+          {
+            "position": {
+              "x": 330,
+              "y": 40
+            },
+            "size": {
+              "width": 130,
+              "height": 130
+            },
+            "attrs": {
+              "text": {
+                "text": "Formulario de solicitud de mejora"
+              },
+              "body": {
+                "stroke": "red"
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "id": "a450c95d-a188-4b5e-a724-a0dc5c20300d",
+            "zIndex": 2,
+            "data": {
+              "type": "tm.Process",
+              "name": "Formulario de solicitud de mejora",
+              "description": "Formulario en línea para registrar solicitudes de mejora.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "4b12a966-6048-47f0-9e0c-f00501a73f20",
+                  "title": "AMZ-11 · Registro de información sensible en sistemas no autorizados",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Information disclosure",
+                  "description": "Escenario: Las solicitudes describen debilidades de control y se almacenan en un formulario en línea fuera del entorno corporativo administrado.\nEvento NIST SP 800-30 (Tabla E-3): Spill sensitive information.\nFuente de amenaza (Tabla D-2): Accidental – User (usuario)\nTendencia del sector: Media (FT-02)\nActividad del procedimiento: 13.1.5.1\nJustificación: El enlace del formulario corresponde a un servicio externo distinto de la plataforma corporativa O365.\nCriterios: frontera Sí, multicliente No, sin control Sí | Puntaje 22 (lugar 5)",
+                  "mitigation": "ISO/IEC 27001:2022 A.5.12; A.5.17; A.8.11; A.8.12 – Migrar el formulario a la plataforma corporativa con autenticación (A.5.23).",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 50,
+                  "score": "22"
+                },
+                {
+                  "id": "87a0e960-b9e5-4c35-9520-9b27176518b6",
+                  "title": "AMZ-19 · Inyección de datos falsos pero creíbles",
+                  "status": "Open",
+                  "severity": "Low",
+                  "type": "Tampering",
+                  "description": "Escenario: Envíos falsos o masivos contaminan el registro de mejoras.\nEvento NIST SP 800-30 (Tabla E-2): Cause integrity loss by injecting false but believable data into organizational information systems.\nFuente de amenaza (Tabla D-2): Adversarial – Insider (interno)\nTendencia del sector: Baja (sin mención relevante en fuentes del sector)\nActividad del procedimiento: 13.1.5.1\nJustificación: El formulario no requiere autenticación.\nCriterios: frontera Sí, multicliente No, sin control Sí | Puntaje 12 (lugar 12)",
+                  "mitigation": "ISO/IEC 27001:2022 A.8.15; A.5.33; A.8.32 – Autenticación y validación de envíos.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 64,
+                  "score": "12"
+                }
+              ],
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": true,
+              "privilegeLevel": "Bajo"
+            }
+          },
+          {
+            "position": {
+              "x": 300,
+              "y": -190
+            },
+            "size": {
+              "width": 210,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "Respuestas del formulario"
+              },
+              "topLine": {
+                "stroke": "red"
+              },
+              "bottomLine": {
+                "stroke": "red"
+              }
+            },
+            "visible": true,
+            "shape": "store",
+            "id": "c2372bbb-3e24-41af-8892-4738e976b8d5",
+            "zIndex": 3,
+            "data": {
+              "type": "tm.Store",
+              "name": "Respuestas del formulario",
+              "description": "Solicitudes recibidas por el formulario.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "158ca4d5-4ef8-4078-adda-41941e5f0c3b",
+                  "title": "AMZ-10 · Manejo inadecuado de información sensible por usuarios autorizados",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Information disclosure",
+                  "description": "Escenario: Las respuestas con debilidades de control se comparten por enlace abierto o desde cuentas personales.\nEvento NIST SP 800-30 (Tabla E-3): Mishandling of critical and/or sensitive information by authorized users.\nFuente de amenaza (Tabla D-2): Accidental – Privileged User/Administrator (usuario privilegiado)\nTendencia del sector: Media (FT-01)\nActividad del procedimiento: 13.1.5.1–13.1.5.2\nJustificación: No se definen permisos ni propietario institucional del repositorio de respuestas.\nCriterios: frontera Sí, multicliente No, sin control Sí | Puntaje 22 (lugar 6)",
+                  "mitigation": "ISO/IEC 27001:2022 A.5.12; A.5.13; A.5.14; A.6.3; A.8.12; A.5.10 – Propietario institucional y permisos restringidos.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 51,
+                  "score": "22"
+                }
+              ],
+              "isALog": true,
+              "isEncrypted": false,
+              "isSigned": false,
+              "storesCredentials": false,
+              "storesInventory": false
+            }
+          },
+          {
+            "position": {
+              "x": 620,
+              "y": 300
+            },
+            "size": {
+              "width": 190,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "Procesos de Negocio"
+              },
+              "body": {
+                "stroke": "red"
+              }
+            },
+            "visible": true,
+            "shape": "actor",
+            "id": "d6630072-c981-426b-8b04-e67524258e3e",
+            "zIndex": 4,
+            "data": {
+              "type": "tm.Actor",
+              "name": "Procesos de Negocio",
+              "description": "Recolecta, registra, prioriza, actualiza estatus y cierra mejoras (13.1.5.2, .4, .7, .9).",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "f51866c7-dc3c-4ca7-a450-bd36a4259074",
+                  "title": "AMZ-36 · Clasificación o atención errónea de un evento de seguridad",
+                  "status": "Open",
+                  "severity": "Low",
+                  "type": "Denial of service",
+                  "description": "Escenario: Una solicitud que describe un incidente de control o de seguridad espera la revisión bimestral en lugar de escalarse.\nEvento NIST SP 800-30 (Tabla E-5 (org.)): Organization-defined: Misclassification of a security event.\nFuente de amenaza (Tabla D-2): Accidental – User (usuario)\nTendencia del sector: Baja (sin mención relevante en fuentes del sector)\nActividad del procedimiento: 13.1.5.2\nJustificación: La recolección es bimestral y no se definen criterios para escalar a incidentes.\nCriterios: frontera No, multicliente Sí, sin control Sí | Puntaje 12 (lugar 9)",
+                  "mitigation": "ISO/IEC 27001:2022 A.5.24; A.5.25; A.6.3; A.6.8; A.5.26; A.5.37 – Criterios para identificar incidentes y escalamiento inmediato.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 55,
+                  "score": "12"
+                },
+                {
+                  "id": "ee456e9f-57fe-49e3-b785-c7f2325ff2e3",
+                  "title": "AMZ-30 · Agotamiento de recursos",
+                  "status": "Open",
+                  "severity": "Low",
+                  "type": "Denial of service",
+                  "description": "Escenario: Acumulación de mejoras y hallazgos que vencen sus fechas compromiso.\nEvento NIST SP 800-30 (Tabla E-3): Resource depletion.\nFuente de amenaza (Tabla D-2): Structural – Processing (procesamiento)\nTendencia del sector: Baja (sin mención relevante en fuentes del sector)\nActividad del procedimiento: 13.1.5.2–13.1.5.9\nJustificación: No se definen indicadores de rezago.\nCriterios: frontera No, multicliente No, sin control Sí | Puntaje 11 (lugar 15)",
+                  "mitigation": "ISO/IEC 27001:2022 A.8.6; A.8.16 – Indicadores de rezago y escalamiento.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 63,
+                  "score": "11"
+                }
+              ],
+              "providesAuthentication": false
+            }
+          },
+          {
+            "position": {
+              "x": 960,
+              "y": 300
+            },
+            "size": {
+              "width": 140,
+              "height": 140
+            },
+            "attrs": {
+              "text": {
+                "text": "Plataforma O365 / SharePoint"
+              },
+              "body": {
+                "stroke": "red"
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "id": "867d50f8-ad81-4994-95a1-2e11c8913946",
+            "zIndex": 5,
+            "data": {
+              "type": "tm.Process",
+              "name": "Plataforma O365 / SharePoint",
+              "description": "Repositorio corporativo de matrices y fichas de mejora.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "a7ba951d-3e8f-41d6-947a-50917f522ff6",
+                  "title": "AMZ-05 · Compromiso de un proveedor con acceso de confianza",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Spoofing",
+                  "description": "Escenario: Un compromiso del proveedor de la nube expone matrices con hallazgos y riesgos.\nEvento NIST SP 800-30 (Tabla E-5 (org.)): Organization-defined: Compromise of a third party with trusted access.\nFuente de amenaza (Tabla D-2): Adversarial – Supplier (proveedor)\nTendencia del sector: Alta (FT-02; FT-03; FT-04)\nActividad del procedimiento: 13.1.5.2–13.1.5.9\nJustificación: No se referencia la evaluación del servicio en la nube.\nCriterios: frontera Sí, multicliente No, sin control Sí | Puntaje 32 (lugar 1)",
+                  "mitigation": "ISO/IEC 27001:2022 A.5.19; A.5.20; A.5.21; A.5.22; A.8.2; A.8.5 – Evaluación del proveedor de nube y configuración segura del inquilino.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 52,
+                  "score": "32"
+                },
+                {
+                  "id": "d608af72-5992-49e0-a928-33eca434d773",
+                  "title": "AMZ-02 · Suplantación de remitente o dominio en correo electrónico",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Spoofing",
+                  "description": "Escenario: Phishing para robar credenciales de O365 y acceder a las matrices.\nEvento NIST SP 800-30 (Tabla E-2): Craft phishing attacks.\nFuente de amenaza (Tabla D-2): Adversarial – Outsider (externo)\nTendencia del sector: Alta (FT-02; FT-03)\nActividad del procedimiento: 13.1.5.2–13.1.5.9\nJustificación: El procedimiento no considera la autenticación de acceso a los repositorios.\nCriterios: frontera Sí, multicliente No, sin control Sí | Puntaje 32 (lugar 2)",
+                  "mitigation": "ISO/IEC 27001:2022 A.5.14; A.8.7; A.8.23; A.6.3 – MFA y concientización contra phishing.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 53,
+                  "score": "32"
+                }
+              ],
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": true,
+              "privilegeLevel": "Medio"
+            }
+          },
+          {
+            "position": {
+              "x": 930,
+              "y": 600
+            },
+            "size": {
+              "width": 210,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "Matrices y fichas de mejora"
+              },
+              "topLine": {
+                "stroke": "red"
+              },
+              "bottomLine": {
+                "stroke": "red"
+              }
+            },
+            "visible": true,
+            "shape": "store",
+            "id": "d7524f01-7fbe-486c-a0ae-954ecc766092",
+            "zIndex": 6,
+            "data": {
+              "type": "tm.Store",
+              "name": "Matrices y fichas de mejora",
+              "description": "MAT-MOP-MEJ-001, MAT-MOP-MEJ-002, FOR-MOP-MEJ-001, FOR-MOP-AUD-006, FOR-MOP-RISK-001.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "85b18c28-ef7c-4a73-af50-841e383aadd9",
+                  "title": "AMZ-19 · Inyección de datos falsos pero creíbles",
+                  "status": "Open",
+                  "severity": "Low",
+                  "type": "Tampering",
+                  "description": "Escenario: Se marca como 'Cerrado' una mejora o hallazgo sin implementación real.\nEvento NIST SP 800-30 (Tabla E-2): Cause integrity loss by injecting false but believable data into organizational information systems.\nFuente de amenaza (Tabla D-2): Adversarial – Insider (interno)\nTendencia del sector: Baja (sin mención relevante en fuentes del sector)\nActividad del procedimiento: 13.1.5.7\nJustificación: 13.1.5.6 y 13.1.5.8 verifican la implementación y la eficacia.\nCriterios: frontera Sí, multicliente No, sin control No | Puntaje 11 (lugar 13)",
+                  "mitigation": "ISO/IEC 27001:2022 A.8.15; A.5.33; A.8.32 – Evidencia obligatoria antes del cierre.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 56,
+                  "score": "11"
+                },
+                {
+                  "id": "753ecec8-e8e1-43b4-a0b4-b11cd38053d4",
+                  "title": "AMZ-23 · Eliminación o alteración de bitácoras y evidencias",
+                  "status": "Open",
+                  "severity": "Low",
+                  "type": "Repudiation",
+                  "description": "Escenario: Se alteran fechas compromiso o estatus sin historial.\nEvento NIST SP 800-30 (Tabla E-2): Obfuscate adversary actions.\nFuente de amenaza (Tabla D-2): Adversarial – Insider (interno)\nTendencia del sector: Baja (sin mención relevante en fuentes del sector)\nActividad del procedimiento: 13.1.5.4–13.1.5.9\nJustificación: No se exige control de versiones de las matrices.\nCriterios: frontera Sí, multicliente No, sin control Sí | Puntaje 12 (lugar 10)",
+                  "mitigation": "ISO/IEC 27001:2022 A.8.15; A.5.28; A.5.33; A.8.17 – Historial de versiones activo y permisos de edición restringidos.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 57,
+                  "score": "12"
+                },
+                {
+                  "id": "1fc71eab-e3f6-42ca-adb8-22081423aca9",
+                  "title": "AMZ-13 · Acceso que excede la autorización otorgada",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Elevation of privilege",
+                  "description": "Escenario: Personal sin necesidad consulta hallazgos y riesgos de toda la organización.\nEvento NIST SP 800-30 (Tabla E-2): Obtain unauthorized access.\nFuente de amenaza (Tabla D-2): Adversarial – Insider (interno)\nTendencia del sector: Media (FT-02)\nActividad del procedimiento: 13.1.5.4\nJustificación: No se definen permisos por rol en el sitio.\nCriterios: frontera Sí, multicliente No, sin control Sí | Puntaje 22 (lugar 7)",
+                  "mitigation": "ISO/IEC 27001:2022 A.5.15; A.5.18; A.8.2; A.8.3 – Permisos por rol y revisión de accesos del sitio.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 58,
+                  "score": "22"
+                },
+                {
+                  "id": "752424a9-aa8a-4978-9969-0d77d992ee0d",
+                  "title": "AMZ-25 · Introducción de código malicioso conocido (incluye ransomware)",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Tampering",
+                  "description": "Escenario: Ransomware cifra las matrices sincronizadas.\nEvento NIST SP 800-30 (Tabla E-2): Deliver known malware to internal organizational information systems (e.g., virus via email).\nFuente de amenaza (Tabla D-2): Adversarial – Outsider (externo)\nTendencia del sector: Alta (FT-01; FT-03)\nActividad del procedimiento: 13.1.5.4–13.1.5.9\nJustificación: No se definen respaldos de las matrices.\nCriterios: frontera Sí, multicliente No, sin control Sí | Puntaje 32 (lugar 4)",
+                  "mitigation": "ISO/IEC 27001:2022 A.8.7; A.8.8; A.8.13; A.6.3 – Respaldo y retención de versiones.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 59,
+                  "score": "32"
+                }
+              ],
+              "isALog": true,
+              "isEncrypted": false,
+              "isSigned": false,
+              "storesCredentials": false,
+              "storesInventory": false
+            }
+          },
+          {
+            "position": {
+              "x": 1270,
+              "y": 120
+            },
+            "size": {
+              "width": 190,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "Gerencia dueña del proceso a mejorar"
+              },
+              "body": {
+                "stroke": "red"
+              }
+            },
+            "visible": true,
+            "shape": "actor",
+            "id": "baa01d36-f7a8-4027-a0d7-4f2c6feb9107",
+            "zIndex": 7,
+            "data": {
+              "type": "tm.Actor",
+              "name": "Gerencia dueña del proceso a mejorar",
+              "description": "Evalúa, implementa y verifica las mejoras (13.1.5.3, .5, .6).",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "44c6986e-ed9b-4e86-8630-518a88684a16",
+                  "title": "AMZ-24 · Negación de una solicitud o acción sin evidencia suficiente",
+                  "status": "Open",
+                  "severity": "Low",
+                  "type": "Repudiation",
+                  "description": "Escenario: Se declara implementada una acción sin evidencia ('vía ticket, si aplica').\nEvento NIST SP 800-30 (Tabla E-5 (org.)): Organization-defined: Repudiation of a request or action.\nFuente de amenaza (Tabla D-2): Adversarial – Customer (cliente) / Insider (interno)\nTendencia del sector: Baja (sin mención relevante en fuentes del sector)\nActividad del procedimiento: 13.1.5.5–13.1.5.6\nJustificación: La evidencia de implementación es opcional.\nCriterios: frontera No, multicliente No, sin control Sí | Puntaje 11 (lugar 14)",
+                  "mitigation": "ISO/IEC 27001:2022 A.8.15; A.5.33; A.8.17 – Evidencia obligatoria y verificable para cada acción.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 62,
+                  "score": "11"
+                }
+              ],
+              "providesAuthentication": false
+            }
+          },
+          {
+            "position": {
+              "x": 1270,
+              "y": 480
+            },
+            "size": {
+              "width": 190,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "Auditoría Interna"
+              }
+            },
+            "visible": true,
+            "shape": "actor",
+            "id": "712d06a4-e460-4c5c-8622-aea80ac39c9c",
+            "zIndex": 8,
+            "data": {
+              "type": "tm.Actor",
+              "name": "Auditoría Interna",
+              "description": "Evalúa la eficacia de las mejoras (13.1.5.8).",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "threats": [],
+              "providesAuthentication": false
+            }
+          },
+          {
+            "position": {
+              "x": 330,
+              "y": 560
+            },
+            "size": {
+              "width": 130,
+              "height": 130
+            },
+            "attrs": {
+              "text": {
+                "text": "Gestionar Auditorías de Cumplimiento (PRO-MOP-AUD-8.3.6)"
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "id": "bb241a34-5317-4f6b-9d93-d93f46c1857e",
+            "zIndex": 9,
+            "data": {
+              "type": "tm.Process",
+              "name": "Gestionar Auditorías de Cumplimiento (PRO-MOP-AUD-8.3.6)",
+              "description": "Provee hallazgos y recibe registros de mejoras implementadas.",
+              "outOfScope": true,
+              "reasonOutOfScope": "Proceso relacionado; se modela en su propio diagrama.",
+              "hasOpenThreats": false,
+              "threats": [],
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": false,
+              "privilegeLevel": ""
+            }
+          },
+          {
+            "position": {
+              "x": 30,
+              "y": 580
+            },
+            "size": {
+              "width": 130,
+              "height": 130
+            },
+            "attrs": {
+              "text": {
+                "text": "Gestión de Riesgos de Servicios"
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "id": "2c54460b-c689-42ad-a4c6-adb0d41e80f1",
+            "zIndex": 10,
+            "data": {
+              "type": "tm.Process",
+              "name": "Gestión de Riesgos de Servicios",
+              "description": "Provee planes de tratamiento de riesgos.",
+              "outOfScope": true,
+              "reasonOutOfScope": "Proceso relacionado; se modela en su propio diagrama.",
+              "hasOpenThreats": false,
+              "threats": [],
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": false,
+              "privilegeLevel": ""
+            }
+          },
+          {
+            "position": {
+              "x": 620,
+              "y": -130
+            },
+            "size": {
+              "width": 130,
+              "height": 130
+            },
+            "attrs": {
+              "text": {
+                "text": "Diseño y Transición de los Servicios"
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "id": "8279acac-ba0c-4374-af3e-3af376a40fc0",
+            "zIndex": 11,
+            "data": {
+              "type": "tm.Process",
+              "name": "Diseño y Transición de los Servicios",
+              "description": "Gestiona las mejoras con impacto directo en los servicios.",
+              "outOfScope": true,
+              "reasonOutOfScope": "Proceso relacionado; se modela en su propio diagrama.",
+              "hasOpenThreats": false,
+              "threats": [],
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": false,
+              "privilegeLevel": ""
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 22,
+            "connector": "smooth",
+            "id": "5707adf7-6985-40f1-90b2-e0b3e3d884cf",
+            "labels": [
+              {
+                "position": 0.5,
+                "attrs": {
+                  "label": {
+                    "text": "3.1 Solicitud de mejora"
+                  }
+                }
+              }
+            ],
+            "source": {
+              "cell": "93e3ca6f-bd99-4563-8f8e-b1566883b8f2"
+            },
+            "target": {
+              "cell": "a450c95d-a188-4b5e-a724-a0dc5c20300d"
+            },
+            "vertices": [],
+            "data": {
+              "type": "tm.Flow",
+              "name": "3.1 Solicitud de mejora",
+              "description": "13.1.5.1",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "protocol": "HTTPS",
+              "isEncrypted": true,
+              "isPublicNetwork": true,
+              "isBidirectional": false,
+              "hasOpenThreats": false,
+              "threats": []
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 23,
+            "connector": "smooth",
+            "id": "bee67156-94b2-4172-9266-a46fa8394e30",
+            "labels": [
+              {
+                "position": 0.5,
+                "attrs": {
+                  "label": {
+                    "text": "3.2 Registro de respuestas"
+                  }
+                }
+              }
+            ],
+            "source": {
+              "cell": "a450c95d-a188-4b5e-a724-a0dc5c20300d"
+            },
+            "target": {
+              "cell": "c2372bbb-3e24-41af-8892-4738e976b8d5"
+            },
+            "vertices": [],
+            "data": {
+              "type": "tm.Flow",
+              "name": "3.2 Registro de respuestas",
+              "description": "Almacenamiento de solicitudes.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "protocol": "Servicio en línea",
+              "isEncrypted": true,
+              "isPublicNetwork": true,
+              "isBidirectional": false,
+              "hasOpenThreats": false,
+              "threats": []
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "red",
+                "strokeWidth": 1.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 24,
+            "connector": "smooth",
+            "id": "ba016364-961e-4643-83bb-01051695e294",
+            "labels": [
+              {
+                "position": 0.5,
+                "attrs": {
+                  "label": {
+                    "text": "3.3 Recolección bimestral de solicitudes"
+                  }
+                }
+              }
+            ],
+            "source": {
+              "cell": "c2372bbb-3e24-41af-8892-4738e976b8d5"
+            },
+            "target": {
+              "cell": "d6630072-c981-426b-8b04-e67524258e3e"
+            },
+            "vertices": [],
+            "data": {
+              "type": "tm.Flow",
+              "name": "3.3 Recolección bimestral de solicitudes",
+              "description": "13.1.5.2",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "protocol": "HTTPS / descarga",
+              "isEncrypted": true,
+              "isPublicNetwork": true,
+              "isBidirectional": false,
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "a9a34e32-e382-43d9-ae75-cff05636daf8",
+                  "title": "AMZ-38 · Robo o sustracción de equipos o medios con información",
+                  "status": "Open",
+                  "severity": "Low",
+                  "type": "Information disclosure",
+                  "description": "Escenario: Descargas locales de solicitudes en equipos que se pierden o roban.\nEvento NIST SP 800-30 (Tabla E-2): Obtain information by opportunistically stealing or scavenging information systems/components.\nFuente de amenaza (Tabla D-2): Adversarial – Outsider (externo)\nTendencia del sector: Baja (sin mención relevante en fuentes del sector)\nActividad del procedimiento: 13.1.5.2\nJustificación: No se restringe la descarga a equipos locales.\nCriterios: frontera Sí, multicliente No, sin control Sí | Puntaje 12 (lugar 11)",
+                  "mitigation": "ISO/IEC 27001:2022 A.8.1; A.7.9; A.7.10; A.7.14; A.8.24; A.8.10 – Trabajar en el repositorio corporativo sin descargas locales; cifrado de equipos.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 60,
+                  "score": "12"
+                }
+              ]
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": "block"
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 25,
+            "connector": "smooth",
+            "id": "560fb938-4d02-49aa-9ee1-d1671b8c6e58",
+            "labels": [
+              {
+                "position": 0.5,
+                "attrs": {
+                  "label": {
+                    "text": "3.4 Registro, priorización y cierre"
+                  }
+                }
+              }
+            ],
+            "source": {
+              "cell": "d6630072-c981-426b-8b04-e67524258e3e"
+            },
+            "target": {
+              "cell": "867d50f8-ad81-4994-95a1-2e11c8913946"
+            },
+            "vertices": [],
+            "data": {
+              "type": "tm.Flow",
+              "name": "3.4 Registro, priorización y cierre",
+              "description": "13.1.5.2, .4, .7, .9",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "protocol": "HTTPS",
+              "isEncrypted": true,
+              "isPublicNetwork": true,
+              "isBidirectional": true,
+              "hasOpenThreats": false,
+              "threats": []
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": "block"
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 26,
+            "connector": "smooth",
+            "id": "226c6b63-eb8b-4729-948f-2d193df1bfa5",
+            "labels": [
+              {
+                "position": 0.5,
+                "attrs": {
+                  "label": {
+                    "text": "3.5 Lectura/escritura de matrices"
+                  }
+                }
+              }
+            ],
+            "source": {
+              "cell": "867d50f8-ad81-4994-95a1-2e11c8913946"
+            },
+            "target": {
+              "cell": "d7524f01-7fbe-486c-a0ae-954ecc766092"
+            },
+            "vertices": [],
+            "data": {
+              "type": "tm.Flow",
+              "name": "3.5 Lectura/escritura de matrices",
+              "description": "Repositorio documental.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "protocol": "SharePoint",
+              "isEncrypted": true,
+              "isPublicNetwork": false,
+              "isBidirectional": true,
+              "hasOpenThreats": false,
+              "threats": []
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": "block"
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 27,
+            "connector": "smooth",
+            "id": "ad115062-a4ee-48e9-b21c-3217c6630609",
+            "labels": [
+              {
+                "position": 0.5,
+                "attrs": {
+                  "label": {
+                    "text": "3.6 Evaluación, implementación y verificación"
+                  }
+                }
+              }
+            ],
+            "source": {
+              "cell": "baa01d36-f7a8-4027-a0d7-4f2c6feb9107"
+            },
+            "target": {
+              "cell": "867d50f8-ad81-4994-95a1-2e11c8913946"
+            },
+            "vertices": [],
+            "data": {
+              "type": "tm.Flow",
+              "name": "3.6 Evaluación, implementación y verificación",
+              "description": "13.1.5.3, .5, .6",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "protocol": "HTTPS",
+              "isEncrypted": true,
+              "isPublicNetwork": true,
+              "isBidirectional": true,
+              "hasOpenThreats": false,
+              "threats": []
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": "block"
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 28,
+            "connector": "smooth",
+            "id": "73f16d1d-e7f8-4597-aacd-6903bae37ccf",
+            "labels": [
+              {
+                "position": 0.5,
+                "attrs": {
+                  "label": {
+                    "text": "3.7 Evaluación de eficacia"
+                  }
+                }
+              }
+            ],
+            "source": {
+              "cell": "712d06a4-e460-4c5c-8622-aea80ac39c9c"
+            },
+            "target": {
+              "cell": "867d50f8-ad81-4994-95a1-2e11c8913946"
+            },
+            "vertices": [],
+            "data": {
+              "type": "tm.Flow",
+              "name": "3.7 Evaluación de eficacia",
+              "description": "13.1.5.8",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "protocol": "HTTPS",
+              "isEncrypted": true,
+              "isPublicNetwork": true,
+              "isBidirectional": true,
+              "hasOpenThreats": false,
+              "threats": []
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "red",
+                "strokeWidth": 1.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": "block"
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 29,
+            "connector": "smooth",
+            "id": "0e94e517-5863-4905-8b4e-2196ce7d64fe",
+            "labels": [
+              {
+                "position": 0.5,
+                "attrs": {
+                  "label": {
+                    "text": "3.8 Hallazgos de auditoría"
+                  }
+                }
+              }
+            ],
+            "source": {
+              "cell": "bb241a34-5317-4f6b-9d93-d93f46c1857e"
+            },
+            "target": {
+              "cell": "d6630072-c981-426b-8b04-e67524258e3e"
+            },
+            "vertices": [],
+            "data": {
+              "type": "tm.Flow",
+              "name": "3.8 Hallazgos de auditoría",
+              "description": "Entrada de hallazgos y salida de mejoras implementadas.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "protocol": "Correo / SharePoint",
+              "isEncrypted": true,
+              "isPublicNetwork": false,
+              "isBidirectional": true,
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "id": "fd7139d7-c15e-45cf-8804-9215c8d96ae7",
+                  "title": "AMZ-10 · Manejo inadecuado de información sensible por usuarios autorizados",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Information disclosure",
+                  "description": "Escenario: Reportes de auditoría con hallazgos se distribuyen más allá de lo necesario.\nEvento NIST SP 800-30 (Tabla E-3): Mishandling of critical and/or sensitive information by authorized users.\nFuente de amenaza (Tabla D-2): Accidental – Privileged User/Administrator (usuario privilegiado)\nTendencia del sector: Media (FT-01)\nActividad del procedimiento: 13.1.5.4\nJustificación: No se define la clasificación de los reportes.\nCriterios: frontera No, multicliente No, sin control Sí | Puntaje 21 (lugar 8)",
+                  "mitigation": "ISO/IEC 27001:2022 A.5.12; A.5.13; A.5.14; A.6.3; A.8.12; A.5.10 – Clasificación y distribución controlada de reportes.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 61,
+                  "score": "21"
+                }
+              ]
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 30,
+            "connector": "smooth",
+            "id": "97a1c5ac-0768-42db-90fe-1ac5c3bb72f9",
+            "labels": [
+              {
+                "position": 0.5,
+                "attrs": {
+                  "label": {
+                    "text": "3.9 Planes de tratamiento de riesgos"
+                  }
+                }
+              }
+            ],
+            "source": {
+              "cell": "2c54460b-c689-42ad-a4c6-adb0d41e80f1"
+            },
+            "target": {
+              "cell": "d6630072-c981-426b-8b04-e67524258e3e"
+            },
+            "vertices": [],
+            "data": {
+              "type": "tm.Flow",
+              "name": "3.9 Planes de tratamiento de riesgos",
+              "description": "Entrada desde Gestión de Riesgos.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "protocol": "Correo / SharePoint",
+              "isEncrypted": true,
+              "isPublicNetwork": false,
+              "isBidirectional": false,
+              "hasOpenThreats": false,
+              "threats": []
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": "block"
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 31,
+            "connector": "smooth",
+            "id": "81390602-b910-4998-9f6c-4af963496c98",
+            "labels": [
+              {
+                "position": 0.5,
+                "attrs": {
+                  "label": {
+                    "text": "3.10 Mejoras a los servicios"
+                  }
+                }
+              }
+            ],
+            "source": {
+              "cell": "d6630072-c981-426b-8b04-e67524258e3e"
+            },
+            "target": {
+              "cell": "8279acac-ba0c-4374-af3e-3af376a40fc0"
+            },
+            "vertices": [],
+            "data": {
+              "type": "tm.Flow",
+              "name": "3.10 Mejoras a los servicios",
+              "description": "Salida y retorno con Diseño y Transición.",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "protocol": "Ticket / SharePoint",
+              "isEncrypted": true,
+              "isPublicNetwork": false,
+              "isBidirectional": true,
+              "hasOpenThreats": false,
+              "threats": []
+            }
+          },
+          {
+            "shape": "trust-boundary-curve",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "strokeWidth": 3,
+                "strokeDasharray": "10 5",
+                "targetMarker": {
+                  "name": ""
+                },
+                "sourceMarker": {
+                  "name": ""
+                }
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 42,
+            "connector": "smooth",
+            "id": "28e344b4-bfdd-4629-95f5-328c1f724eb0",
+            "labels": [
+              {
+                "position": 0.5,
+                "attrs": {
+                  "label": {
+                    "text": "Frontera servicio externo (formulario en línea)"
+                  }
+                }
+              }
+            ],
+            "source": {
+              "x": 250,
+              "y": -260
+            },
+            "target": {
+              "x": 540,
+              "y": -260
+            },
+            "vertices": [
+              {
+                "x": 250,
+                "y": 230
+              },
+              {
+                "x": 540,
+                "y": 230
+              }
+            ],
+            "data": {
+              "type": "tm.Boundary",
+              "name": "Frontera servicio externo (formulario en línea)",
+              "description": "Servicio fuera del entorno corporativo administrado.",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            }
+          },
+          {
+            "shape": "trust-boundary-curve",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "strokeWidth": 3,
+                "strokeDasharray": "10 5",
+                "targetMarker": {
+                  "name": ""
+                },
+                "sourceMarker": {
+                  "name": ""
+                }
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 43,
+            "connector": "smooth",
+            "id": "3bb680c7-40fe-4779-8f79-c027256dcc4b",
+            "labels": [
+              {
+                "position": 0.5,
+                "attrs": {
+                  "label": {
+                    "text": "Frontera nube corporativa (O365)"
+                  }
+                }
+              }
+            ],
+            "source": {
+              "x": 870,
+              "y": 200
+            },
+            "target": {
+              "x": 1150,
+              "y": 200
+            },
+            "vertices": [
+              {
+                "x": 870,
+                "y": 730
+              },
+              {
+                "x": 1150,
+                "y": 730
+              }
+            ],
+            "data": {
+              "type": "tm.Boundary",
+              "name": "Frontera nube corporativa (O365)",
+              "description": "Repositorio corporativo en la nube.",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            }
+          }
+        ],
+        "description": "Registro, evaluación, priorización, implementación, verificación, evaluación de eficacia y cierre de mejoras, hallazgos y riesgos."
       }
     ],
-    "diagramTop": 1,
+    "diagramTop": 3,
     "reviewer": "Carlos Diaz",
-    "threatTop": 0
+    "threatTop": 64
   }
 }
